@@ -1,13 +1,11 @@
 package com.example.cryptochat;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.databinding.UserItemBinding;
@@ -52,10 +50,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
         return new UserHolder(itemView);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull UserHolder holder, int position) {
-        Collections.sort(userArrayList, Comparator.comparing(User::getTime));
+        Collections.sort(userArrayList, (user1, user2) -> user1.getTime().compareTo(user2.getTime()));
         holder.bind(userArrayList.get(position));
     }
 
