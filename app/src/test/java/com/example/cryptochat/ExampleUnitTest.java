@@ -1,4 +1,4 @@
-package com.example.crypyochat;
+package com.example.cryptochat;
 
 import org.junit.Test;
 
