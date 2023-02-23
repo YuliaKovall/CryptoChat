@@ -14,5 +14,26 @@
     <color name="light_black_lt">#1A1A1A</color>
     <color name="green_lt">#83C241</color>
 
+    // please use these colors
+    <color name="universal_white">#FFFFFF</color>
+    <color name="universal_black">#1A1A1A</color>
+    <color name="universal_state_success">#74D252</color>
+    <color name="universal_state_error">#F22B2B</color>
+    <color name="light_theme_light_background">#D9E3CF</color>
+    <color name="light_theme_dark_background" >#1A1F1E1B</color>
+    <color name="light_theme_grey_background">#F5F5F5</color>
+    <color name="light_theme_secondary_green">#83C241</color>
+    <color name="light_theme_dark_green">#ACC194</color>
+    <color name="universal_stroke_grey_0">#000000</color>
+    <color name="universal_stroke_grey_40">#666666</color>
+    <color name="universal_stroke_grey_75">#BFBFBF</color>
+    <color name="universal_stroke_grey_85">#D9D9D9</color>
+    <color name="universal_stroke_grey_90">#E6E6E6</color>
+    <color name="universal_stroke_grey_dark">#E1E1E1</color>
+    <color name="universal_text_black_20">#333333</color>
+    <color name="universal_text_grey_30">#4D4D4D</color>
+    <color name="universal_text_grey_50">#808080</color>
+    <color name="universal_text_grey_75">#BFBFBF</color>
+
 
 </resources>
