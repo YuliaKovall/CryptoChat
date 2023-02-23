@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.databinding.UserItemBinding;
-import com.example.crypyochat.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
