@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cryptochat.databinding.UserItemBinding;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
@@ -50,6 +52,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull UserHolder holder, int position) {
+        Collections.sort(userArrayList, new Comparator<User>() {
+            @Override
+            public int compare(User user1, User user2) {
+                return user1.getTime().compareTo(user2.getTime());
+            }
+        });
         holder.bind(userArrayList.get(position));
     }
 
