@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">Cru[ptoCh</string>
-    <string name="logo_text">Чати</string>
+    <string name="app_name">CryptoChat</string>
+    <string name="user_name">Name</string>
+    <string name="message_text">Message</string>
+    <string name="message_count">Count</string>
+    <string name="message_time">Time</string>
 </resources>
