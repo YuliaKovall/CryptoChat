@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.cryptochat'
+    namespace 'com.example.cruptoch'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.cryptochat"
+        applicationId "com.example.cruptoch"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -25,9 +25,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-    buildFeatures{
-        viewBinding true
     }
 }
 
