@@ -1,6 +1,7 @@
 package com.example.cryptochat;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
         public UserHolder(View view) {
             super(view);
             binding = UserItemBinding.bind(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int positionIndex = getAdapterPosition();
+                    User selectedUser = userArrayList.get(positionIndex);
+                    Intent intent = new Intent(view.getContext(), ChatActivity.class);
+                    intent.putExtra("USER_NAME", selectedUser.getUserName());
+                    intent.putExtra("USER_NUMBER", selectedUser.getUserNumber());
+                    view.getContext().startActivity(intent);
+                }
+            });
         }
 
         public void bind(User user) {
