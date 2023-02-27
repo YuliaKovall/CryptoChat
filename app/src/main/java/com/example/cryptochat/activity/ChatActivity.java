@@ -40,8 +40,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         backButton = findViewById(R.id.chat_back_button);
         sendButton = findViewById(R.id.sendButton);
         messageBox = findViewById(R.id.messageBox);
-        readyNote1 = findViewById(R.id.ready_note_1);
-        readyNote2 = findViewById(R.id.ready_note_2);
+        readyNote1 = findViewById(R.id.note_you_can_start_chatting);
+        readyNote2 = findViewById(R.id.note_you_can_start_chatting2);
+        readyNote2 = findViewById(R.id.note_you_can_start_chatting3);
 
         Intent intent = getIntent();
         contactName.setText(intent.getStringExtra("USER_NAME"));
