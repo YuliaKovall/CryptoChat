@@ -8,7 +8,8 @@
     <string name="message_time">Time</string>
     <string name="status">Status</string>
     <string name="hint"><font size="18">Напишіть повідомлення</font></string>
-    <string name="ready_note1">Унікальний ключ \n введено</string>
-    <string name="ready_note2">Спробуйте набрати і \n зашифрувати \n повідомлення.\n Почніть набирати \n нижче.</string>
+    <string name="ready_note1">Унікальний ключ введено</string>
+    <string name="ready_note2">Спробуйте набрати і зашифрувати повідомлення.</string>
+    <string name="ready_note3">Почніть набирати нижче.</string>
     <string name="back_word">Назад</string>
 </resources>
