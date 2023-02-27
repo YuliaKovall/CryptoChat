@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/universal_black"
+    tools:context=".LoadingScreen">
+
+    <FrameLayout
+        android:id="@+id/logo_loading_animation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <ImageView
+            android:id="@+id/rotatingWheel"
+            android:layout_width="@dimen/size_loading_wheel"
+            android:layout_height="@dimen/size_loading_wheel"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/logo_rotating_wheel"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="8dp" />
+
+        <ImageView
+            android:id="@+id/hugs"
+            android:layout_width="@dimen/width_loading_hug"
+            android:layout_height="@dimen/height_loading_hug"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/logo_hug"
+            tools:layout_editor_absoluteX="8dp"
+            tools:ignore="MissingConstraints"/>
+    </FrameLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:fontFamily="@font/mariupol_regular"
+        android:text="Crypto Chat"
+        android:textFontWeight="500"
+        android:textSize="48sp"
+        android:textColor="@color/universal_white"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/logo_loading_animation"
+        app:layout_constraintStart_toStartOf="@id/logo_loading_animation"
+        app:layout_constraintEnd_toEndOf="@id/logo_loading_animation"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
