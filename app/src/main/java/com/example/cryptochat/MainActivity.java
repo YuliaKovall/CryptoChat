@@ -40,17 +40,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUserInfo() {
-        userMap.put(1, new User("Jhon", "Ok!", new Date(1677229871000L), 2));
-        userMap.put(2, new User("Bili", "Hi!", new Date(1677362266064L), 3));
-        userMap.put(3, new User("Kolia", "How are you?", new Date(1677362166064L), 1));
-        userMap.put(4, new User("Lara", "Hello!", new Date(1677361466064L), 4));
-        userMap.put(5, new User("Jhon", "Ok!", new Date(1677102466064L), 2));
-        userMap.put(6, new User("Bili", "Hi!", new Date(1677062466064L), 3));
-        userMap.put(7, new User("Kolia", "How are you?", new Date(1677363997487L), 1));
-        userMap.put(8, new User("Lara", "Hello!", new Date(1670362466064L), 4));
-        userMap.put(9, new User("Jhon", "Ok!", new Date(1607362466064L), 2));
-        userMap.put(10, new User("Bili", "Hi!", new Date(1677316271000L), 3));
-        userMap.put(11, new User("Kolia", "How are you?", new Date(1677143471000L), 1));
-        userMap.put(12, new User("Lara", "Hello!", new Date(1677365435819L), 4));
+        userMap.put(1, new User("Jhon", "+38067382333", "Ok!", new Date(1677229871000L), 2));
+        userMap.put(2, new User("Bili", "+38067382335", "Hi!", new Date(1677362266064L), 3));
+        userMap.put(3, new User("Kolia", "+38067356334", "How are you?", new Date(1677362166064L), 1));
+        userMap.put(4, new User("Lara", "+38067382344", "Hello!", new Date(1677361466064L), 4));
+        userMap.put(5, new User("Jhon", "+38067384", "Ok!", new Date(1677102466064L), 2));
+        userMap.put(6, new User("Bili", "+38067342334", "Hi!", new Date(1677062466064L), 3));
+        userMap.put(7, new User("Kolia","+380652334",  "How are you?", new Date(1677363997487L), 1));
+        userMap.put(8, new User("Lara", "+38066382334", "Hello!", new Date(1670362466064L), 4));
+        userMap.put(9, new User("Jhon", "+38067382333", "Ok!", new Date(1607362466064L), 2));
+        userMap.put(10, new User("Bili", "+38067382332", "Hi!", new Date(1677316271000L), 3));
+        userMap.put(11, new User("Kolia","+38067382331",  "How are you?", new Date(1677143471000L), 1));
+        userMap.put(12, new User("Lara", "+38067382330", "Hello!", new Date(1677365435819L), 4));
     }
 }
