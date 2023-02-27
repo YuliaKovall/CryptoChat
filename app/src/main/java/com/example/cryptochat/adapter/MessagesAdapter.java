@@ -1,4 +1,4 @@
-package com.example.cryptochat;
+package com.example.cryptochat.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cryptochat.R;
+import com.example.cryptochat.pojo.Message;
 
 import java.util.List;
 

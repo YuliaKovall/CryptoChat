@@ -1,8 +1,4 @@
-package com.example.cryptochat;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.example.cryptochat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +6,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cryptochat.R;
+import com.example.cryptochat.adapter.MessagesAdapter;
+import com.example.cryptochat.pojo.Message;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ChatActivity extends AppCompatActivity implements View.OnClickListener{
+public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     ImageButton backButton, sendButton;
     TextView contactName, contactNumber, backWord, readyNote1, readyNote2;
     String contactNumberStr, sendingMessage;
@@ -23,7 +28,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerView messagesRecyclerView;
     MessagesAdapter messagesAdapter;
     Date date;
-
 
 
     @Override
@@ -50,10 +54,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         // Recycler view handling
         messageList = new ArrayList<>();
         messagesRecyclerView = findViewById(R.id.recyclerView_chat_log);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         messagesRecyclerView.setLayoutManager(linearLayoutManager);
-        messagesAdapter=new MessagesAdapter(ChatActivity.this, messageList);
+        messagesAdapter = new MessagesAdapter(ChatActivity.this, messageList);
         messagesRecyclerView.setAdapter(messagesAdapter);
 
         //receiveMessages
@@ -68,7 +72,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.chat_back_word:
             case R.id.chat_back_button:
                 finish();
@@ -108,8 +112,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onStop() {
         super.onStop();
-        if(messagesAdapter!=null)
-        {
+        if (messagesAdapter != null) {
             messagesAdapter.notifyDataSetChanged();
         }
     }

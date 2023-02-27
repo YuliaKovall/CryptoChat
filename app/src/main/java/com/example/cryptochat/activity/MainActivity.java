@@ -1,12 +1,13 @@
-package com.example.cryptochat;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.cryptochat.activity;
 
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-
+import com.example.cryptochat.adapter.UserAdapter;
 import com.example.cryptochat.databinding.ActivityMainBinding;
+import com.example.cryptochat.pojo.User;
 
 import java.util.Date;
 import java.util.HashMap;
