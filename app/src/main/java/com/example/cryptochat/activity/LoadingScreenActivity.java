@@ -1,6 +1,4 @@
-package com.example.cryptochat;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.cryptochat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,16 +7,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.cryptochat.R;
 
-public class LoadingScreen extends AppCompatActivity {
+public class LoadingScreenActivity extends AppCompatActivity {
     Animation rotateLoadingWheelAnimation;
     ImageView imageView;
     private static final long DELAY_TIME = 2500;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_page_first_launch);
+        setContentView(R.layout.activity_loading_screen);
         imageView=(ImageView)findViewById(R.id.rotatingWheel);
         rotateLoadingWheelAnimation();
 
@@ -26,7 +26,7 @@ public class LoadingScreen extends AppCompatActivity {
             @Override
             public void run() {
                 // Start the main activity after the delay time
-                Intent intent = new Intent(LoadingScreen.this, MainActivity.class);
+                Intent intent = new Intent(LoadingScreenActivity.this, MainActivity.class);
                 startActivity(intent);
 
                 // Finish the loading activity to remove it from the back stack
