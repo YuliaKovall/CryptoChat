@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/light_theme_dark_green"
+    android:background="@color/light_theme_light_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.ChatActivity">
@@ -12,7 +12,7 @@
         android:id="@+id/chatToolBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/light_theme_dark_green"
+        android:background="@color/light_theme_dark_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,6 @@
         android:layout_height="23dp"
         android:layout_marginStart="3dp"
         android:layout_marginTop="19dp"
-        android:background="@color/light_theme_dark_green"
         android:src="@drawable/ic_baseline_arrow_back_ios_24"
         android:clickable="true"
         app:layout_constraintEnd_toStartOf="@+id/contactName"
@@ -79,7 +78,13 @@
         android:clickable="true"
         app:layout_constraintStart_toEndOf="@+id/chat_back_button"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <TextView
+        android:id="@+id/background_for_msgs_box"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/light_theme_dark_background"
+        app:layout_constraintTop_toTopOf="@id/sendButton"
+        app:layout_constraintBottom_toBottomOf="@id/sendButton"/>
     <EditText
         android:id="@+id/messageBox"
         android:layout_width="match_parent"
@@ -114,12 +119,61 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+
+    <LinearLayout
+        android:id="@+id/unique_key_is_ok"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corners"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/note_you_can_start_chatting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ready_note1"
+            android:fontFamily="@font/mariupol_regular"
+            android:textFontWeight="700"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+        <TextView
+            android:id="@+id/note_you_can_start_chatting2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ready_note2"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="16sp"
+            android:lineHeight="21dp"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"/>
+        <TextView
+            android:id="@+id/note_you_can_start_chatting3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ready_note3"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="16sp"
+            android:lineHeight="21dp"
+            android:gravity="center"
+            android:layout_marginBottom="12dp"/>
+
+
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_chat_log"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="7dp"
-        android:background="@color/light_theme_light_background"
         app:layout_constraintBottom_toTopOf="@+id/messageBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -127,38 +181,7 @@
         app:layout_constraintTop_toBottomOf="@+id/chatToolBar"
         app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/ready_note_1"
-        android:layout_width="match_parent"
-        android:layout_height="212dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="70dp"
-        android:background="@drawable/ready_note_background"
-        android:fontFamily="@font/mariupol_bold"
-        android:gravity="center|top"
-        android:paddingTop="20dp"
-        android:text="@string/ready_note1"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatToolBar" />
 
-    <TextView
-        android:id="@+id/ready_note_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="70dp"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="center|top"
-        android:text="@string/ready_note2"
-        android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/ready_note_1"
-        app:layout_constraintStart_toStartOf="@+id/ready_note_1"
-        app:layout_constraintTop_toTopOf="@+id/ready_note_1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
