@@ -1,12 +1,14 @@
 package com.example.cryptochat;
 
+import java.util.Date;
+
 public class User {
     private String userName;
     private String message;
-    private String time;
+    private Date time;
     private int count;
 
-    public User(String userName, String message, String time, int count) {
+    public User(String userName, String message, Date time, int count) {
         this.userName = userName;
         this.message = message;
         this.time = time;
@@ -29,11 +31,11 @@ public class User {
         this.message = message;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

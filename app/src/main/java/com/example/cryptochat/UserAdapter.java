@@ -10,9 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.databinding.UserItemBinding;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
@@ -38,9 +43,24 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
             binding.name.setText(user.getUserName());
             binding.message.setText(user.getMessage());
             binding.count.setText(String.valueOf(user.getCount()));
-            binding.time.setText(String.valueOf(user.getTime()));
+            binding.time.setText(String.valueOf(formatTimeDate(user.getTime())));
         }
 
+    }
+
+    public String formatTimeDate (Date d){
+        String result = "";
+        Date now = new Date();
+        if (now.getTime() - d.getTime() < 86400000 && now.getDay() == d.getDay()){
+            result = new SimpleDateFormat("HH:mm:ss").format(d);
+        } else if (now.getTime() - d.getTime() < 172800000 && now.getDay() != d.getDay()){
+            result = "учора " + new SimpleDateFormat("HH:mm").format(d);
+        } else if (now.getTime() - d.getTime() < 604800000 && now.getDay() != d.getDay()) {
+            result = new SimpleDateFormat("E HH:mm").format(d);
+        } else {
+            result = new SimpleDateFormat("dd.MM.yyyy").format(d);
+        }
+        return result;
     }
 
     @NonNull
@@ -52,7 +72,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull UserHolder holder, int position) {
-        Collections.sort(userArrayList, (user1, user2) -> user1.getTime().compareTo(user2.getTime()));
+        Collections.sort(userArrayList, (user1, user2) -> user2.getTime().compareTo(user1.getTime()));
         holder.bind(userArrayList.get(position));
     }
 
