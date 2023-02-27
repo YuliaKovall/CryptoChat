@@ -1,4 +1,4 @@
-package com.example.cryptochat;
+package com.example.cryptochat.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -9,16 +9,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cryptochat.R;
+import com.example.cryptochat.activity.ChatActivity;
 import com.example.cryptochat.databinding.UserItemBinding;
+import com.example.cryptochat.pojo.User;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {

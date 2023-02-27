@@ -1,4 +1,4 @@
-package com.example.cryptochat;
+package com.example.cryptochat.pojo;
 
 import java.text.SimpleDateFormat;
 

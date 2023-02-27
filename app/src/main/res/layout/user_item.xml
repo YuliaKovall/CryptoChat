@@ -1,60 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#D9E3CF">
 
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardBackgroundColor="@color/green_lt"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/status"
+        android:textSize="14sp"
+        android:textColor="@color/universal_state_error"
+        android:layout_width="299dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/status"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:stretchColumns="1">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/name"
+        android:textSize="18sp"
+        android:textColor="@color/universal_text_black_20"
+        android:layout_width="299dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/user_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status" />
 
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:padding="3dp"
-                    android:text="@string/user_name" />
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/message_time"
+        android:textColor="@color/universal_text_grey_30"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/status"
+        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/count"
-                    android:gravity="end"
-                    android:padding="3dp"
-                    android:text="@string/message_count" />
-            </TableRow>
+    <TextView
+        android:id="@+id/message"
+        android:textSize="18sp"
+        android:textColor="@color/universal_text_grey_50"
+        android:layout_width="299dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lines="2"
+        android:text="@string/message_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/count"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:layout_width="22dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="17dp"
+        android:gravity="end"
+        android:text="@string/message_count"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/time" />
 
-                <TextView
-                    android:id="@+id/message"
-                    android:padding="3dp"
-                    android:text="@string/message_text" />
-
-                <TextView
-                    android:id="@+id/time"
-                    android:padding="3dp"
-                    android:gravity="end"
-                    android:text="@string/message_time" />
-            </TableRow>
-
-        </TableLayout>
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
