@@ -1,73 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#D9E3CF">
-
-    <TextView
-        android:id="@+id/status"
-        android:textSize="14sp"
-        android:textColor="@color/universal_state_error"
-        android:layout_width="299dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/status"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+    android:layout_height="90dp"
+    android:id="@+id/card_element_of_list_of_chats"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:padding="8dp"
+    >
 
     <TextView
         android:id="@+id/name"
-        android:textSize="18sp"
-        android:textColor="@color/universal_text_black_20"
-        android:layout_width="299dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:padding="3dp"
         android:text="@string/user_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/status" />
+        android:textColor="@color/universal_black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/card_element_of_list_of_chats"
+        app:layout_constraintTop_toTopOf="@id/card_element_of_list_of_chats"
+
+        />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:text="@string/message_text"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintStart_toStartOf="@id/card_element_of_list_of_chats" />
+
+    <ImageView
+        android:id="@+id/background_for_msgs_counter"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@id/card_element_of_list_of_chats"
+        app:srcCompat="@drawable/background_for_unread_msgs_counter"
+        app:layout_constraintTop_toTopOf="@id/card_element_of_list_of_chats"
+        app:layout_constraintBottom_toBottomOf="@id/card_element_of_list_of_chats"/>
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:fontFamily="@font/roboto_regular"
+        android:padding="3dp"
+        android:textSize="14sp"
+        android:textColor="@color/universal_white"
+        android:text="@string/message_count"
+        app:layout_constraintStart_toStartOf="@id/background_for_msgs_counter"
+        app:layout_constraintEnd_toEndOf="@id/background_for_msgs_counter"
+        app:layout_constraintBottom_toBottomOf="@id/background_for_msgs_counter"
+        />
 
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/message_time"
-        android:textColor="@color/universal_text_grey_30"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/status"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/message"
-        android:textSize="18sp"
-        android:textColor="@color/universal_text_grey_50"
-        android:layout_width="299dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:lines="2"
-        android:text="@string/message_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
-
-    <TextView
-        android:id="@+id/count"
-        android:textSize="14sp"
-        android:textColor="@color/white"
-        android:layout_width="22dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="17dp"
         android:gravity="end"
-        android:text="@string/message_count"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/time" />
+        android:padding="4dp"
+        android:text="@string/message_time"
+        app:layout_constraintEnd_toEndOf="@id/card_element_of_list_of_chats"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/chat_list_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/chat_list_divider"
+        app:layout_constraintBottom_toBottomOf="@id/card_element_of_list_of_chats"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
