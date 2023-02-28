@@ -1,11 +1,17 @@
 package com.example.cryptochat.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,13 +27,18 @@ import java.util.List;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     ImageButton backButton, sendButton;
-    TextView contactName, contactNumber, backWord, readyNote1, readyNote2;
+    TextView contactName, contactNumber, backWord;
     String contactNumberStr, sendingMessage;
     EditText messageBox;
     List<Message> messageList;
     RecyclerView messagesRecyclerView;
     MessagesAdapter messagesAdapter;
     Date date;
+
+    SmsManager smsManager;
+    IntentFilter intentFilter;
+    BroadcastReceiver intentReceiver;
+    LinearLayout uniqueKeyOkNote;
 
 
     @Override
@@ -40,9 +51,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         backButton = findViewById(R.id.chat_back_button);
         sendButton = findViewById(R.id.sendButton);
         messageBox = findViewById(R.id.messageBox);
-        readyNote1 = findViewById(R.id.note_you_can_start_chatting);
-        readyNote2 = findViewById(R.id.note_you_can_start_chatting2);
-        readyNote2 = findViewById(R.id.note_you_can_start_chatting3);
+        uniqueKeyOkNote = findViewById(R.id.unique_key_is_ok);
+
 
         Intent intent = getIntent();
         contactName.setText(intent.getStringExtra("USER_NAME"));
@@ -52,8 +62,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         backButton.setOnClickListener(this);
         sendButton.setOnClickListener(this);
 
-        // Recycler view handling
         messageList = new ArrayList<>();
+        hideReadyNote();
+
+        // Recycler view handling
         messagesRecyclerView = findViewById(R.id.recyclerView_chat_log);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
@@ -61,13 +73,21 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         messagesAdapter = new MessagesAdapter(ChatActivity.this, messageList);
         messagesRecyclerView.setAdapter(messagesAdapter);
 
-        //receiveMessages
-        date = new Date();
-        messageList.add(new Message("Привіт", true, date.getTime()));
-        messageList.add(new Message("Вітаю!", false, date.getTime()));
-        messageList.add(new Message("Як твої справи?", false, date.getTime()));
-        messageList.add(new Message("Збираю тобі на дрон", true, date.getTime()));
-        messageList.add(new Message("Чекаємо!!!", false, date.getTime()));
+
+        //Receiving and sending messages handling
+        smsManager = SmsManager.getDefault();
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("SMS_RECEIVED_ACTION");
+        intentReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                date = new Date();
+                Toast.makeText(getApplicationContext(), "Message Get!", Toast.LENGTH_LONG).show();
+                messageList.add(new Message((intent.getExtras().getString("message")), false, date.getTime()));
+                messagesAdapter.notifyItemInserted(messageList.size() - 1);
+                hideReadyNote();
+            }
+        };
 
     }
 
@@ -84,25 +104,34 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void sendMessage() {
-        sendingMessage = messageBox.getText().toString();
-        date = new Date();
-        messageList.add(new Message(sendingMessage, true, date.getTime()));
-        messagesAdapter.notifyItemInserted(messageList.size() - 1);
-        messageBox.setText(null);
-        // Making empty message box
-        if (messageList.size() > 0) {
-            readyNote1.setVisibility(View.GONE);
-            readyNote2.setVisibility(View.GONE);
-        }
-    }
-
-
     public void receiveMessage(String message) {
         date = new Date();
         messageList.add(new Message(message, false, date.getTime()));
         messagesAdapter.notifyItemInserted(messageList.size() - 1);
     }
+
+    public void sendMessage() {
+        sendingMessage = messageBox.getText().toString();
+        date = new Date();
+        try {
+            smsManager.sendTextMessage(contactNumberStr, null, sendingMessage, null, null);//
+            messageList.add(new Message(sendingMessage, true, date.getTime()));
+            messagesAdapter.notifyItemInserted(messageList.size() - 1);
+            messageBox.setText(null);
+            hideReadyNote();
+            Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Message failed to send.", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+    public void hideReadyNote() {
+        if (messageList.size() > 0) {
+            uniqueKeyOkNote.setVisibility(View.GONE);
+        }
+    }
+
 
     @Override
     public void onStart() {
@@ -116,6 +145,20 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         if (messagesAdapter != null) {
             messagesAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        //register the receiver
+        registerReceiver(intentReceiver, intentFilter);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        //unregister the receiver
+        unregisterReceiver(intentReceiver);
+        super.onPause();
     }
 
 
