@@ -113,17 +113,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void sendMessage() {
         sendingMessage = messageBox.getText().toString();
         date = new Date();
-        try {
-            smsManager.sendTextMessage(contactNumberStr, null, sendingMessage, null, null);//
+   //     try {
+   //         smsManager.sendTextMessage(contactNumberStr, null, sendingMessage, null, null);//
             messageList.add(new Message(sendingMessage, true, date.getTime()));
             messagesAdapter.notifyItemInserted(messageList.size() - 1);
             messageBox.setText(null);
             hideReadyNote();
-            Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Message failed to send.", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
+  //          Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_LONG).show();
+  //       } catch (Exception e) {
+ //           Toast.makeText(getApplicationContext(), "Message failed to send.", Toast.LENGTH_LONG).show();
+ //           e.printStackTrace();
+ //       }
     }
 
     public void hideReadyNote() {
