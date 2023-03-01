@@ -1,8 +1,5 @@
 package com.example.cryptochat.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -12,11 +9,11 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 
-import com.example.cryptochat.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cryptochat.adapter.ContactListAdapter;
 import com.example.cryptochat.databinding.ActivityContactListBinding;
-import com.example.cryptochat.databinding.ActivityMainBinding;
 import com.example.cryptochat.pojo.User;
 
 import java.util.Date;
@@ -38,7 +35,7 @@ public class ContactListActivity extends AppCompatActivity {
     }
 
     public void chatMassage(View view) {
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
