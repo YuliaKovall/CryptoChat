@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:layout_marginLeft="50dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="end"
+    android:layout_marginEnd="12dp"
     android:padding="2dp">
 
     <RelativeLayout
@@ -9,18 +12,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:background="@drawable/sender_chat_drawable"
-        android:id="@+id/layoutformessage">
+        android:id="@+id/layoutformessage"
+        tools:ignore="UselessParent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sender Message Display Here "
+            android:text="Sender massage will be here"
             android:textSize="18sp"
-            android:textColor="@color/black"
-            android:paddingLeft="7dp"
-            android:paddingRight="40dp"
-            android:paddingBottom="7dp"
-            android:paddingTop="7dp"
+            android:textColor="@color/universal_white"
+            android:fontFamily="@font/roboto_regular"
+            android:textFontWeight="400"
+            android:paddingStart="13dp"
+            android:paddingBottom="21dp"
+            android:paddingTop="13dp"
+            android:paddingEnd="13dp"
             android:id="@+id/sendermessage">
 
         </TextView>
@@ -29,12 +35,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/timeofmessage"
-            android:textSize="10sp"
-            android:layout_toRightOf="@id/sendermessage"
-            android:layout_marginLeft="-40dp"
+            android:textSize="14sp"
+            android:fontFamily="@font/roboto_regular"
             android:layout_alignBottom="@id/sendermessage"
+            android:layout_alignEnd="@id/sendermessage"
             android:text="20:09"
-            android:padding="7dp"
-            android:textColor="#434343" />
+            android:padding="5dp"
+            android:textColor="@color/universal_stroke_grey_90" />
     </RelativeLayout>
 </RelativeLayout>

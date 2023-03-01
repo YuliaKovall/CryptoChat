@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <solid android:color="@color/white">
+    <solid android:color="@color/light_theme_white_35_opacity">
     </solid>
 
-    <corners android:radius="5dp"></corners>
+    <corners android:bottomRightRadius="15dp"
+        android:topLeftRadius="15dp"
+        android:topRightRadius="15dp"></corners>
 </shape>

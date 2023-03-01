@@ -4,7 +4,9 @@
     <solid android:color="@color/light_theme_secondary_green">
     </solid>
 
-    <corners android:radius="5dp"></corners>
+    <corners android:bottomLeftRadius="15dp"
+        android:topLeftRadius="15dp"
+        android:topRightRadius="15dp"></corners>
 
 
 </shape>
