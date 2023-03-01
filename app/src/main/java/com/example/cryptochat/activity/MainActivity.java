@@ -1,10 +1,11 @@
 package com.example.cryptochat.activity;
 
-import android.content.pm.PackageManager;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.Toast;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +14,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cryptochat.adapter.ChatListAdapter;
-import android.Manifest;
 import com.example.cryptochat.databinding.ActivityMainBinding;
 import com.example.cryptochat.pojo.ChatItem;
 import com.example.cryptochat.pojo.Contact;
@@ -57,23 +57,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void setChatItemInfo() {
         chatItemMap.put(1, new ChatItem(new Contact("1", "Jhon", "+38067382333"), "Ok!", new Date(1677229871000L), 2));
-        chatItemMap.put(2, new ChatItem(new Contact("2","Bili", "+38067382335"), "Hi!", new Date(1677362266064L), 3));
-        chatItemMap.put(3, new ChatItem(new Contact("3","Kolia", "+38067356334"), "How are you?", new Date(1677362166064L), 1));
+        chatItemMap.put(2, new ChatItem(new Contact("2", "Bili", "+38067382335"), "Hi!", new Date(1677362266064L), 3));
+        chatItemMap.put(3, new ChatItem(new Contact("3", "Kolia", "+38067356334"), "How are you?", new Date(1677362166064L), 1));
     }
 
 
     protected void grantPermissions() {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_SMS,Manifest.permission.SEND_SMS,Manifest.permission.RECEIVE_SMS}, 34);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS}, 34);
+        }
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS}, 34);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode==34 && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 34 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
-        } else  {
+        } else {
             Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
         }
     }
