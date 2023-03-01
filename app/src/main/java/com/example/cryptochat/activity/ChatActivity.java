@@ -33,7 +33,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     List<Message> messageList;
     RecyclerView messagesRecyclerView;
     MessagesAdapter messagesAdapter;
-    Date date;
 
     SmsManager smsManager;
     IntentFilter intentFilter;
@@ -62,6 +61,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         backButton.setOnClickListener(this);
         sendButton.setOnClickListener(this);
 
+        //TODO
         messageList = new ArrayList<>();
         hideReadyNote();
 
@@ -81,9 +81,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         intentReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                date = new Date();
                 Toast.makeText(getApplicationContext(), "Message Get!", Toast.LENGTH_LONG).show();
-                messageList.add(new Message((intent.getExtras().getString("message")), false, date.getTime()));
+                messageList.add(new Message((intent.getExtras().getString("message")), false, new Date()));
                 messagesAdapter.notifyItemInserted(messageList.size() - 1);
                 hideReadyNote();
             }
@@ -104,21 +103,15 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void receiveMessage(String message) {
-        date = new Date();
-        messageList.add(new Message(message, false, date.getTime()));
-        messagesAdapter.notifyItemInserted(messageList.size() - 1);
-    }
 
     public void sendMessage() {
         sendingMessage = messageBox.getText().toString();
-        date = new Date();
    //     try {
    //         smsManager.sendTextMessage(contactNumberStr, null, sendingMessage, null, null);//
-            messageList.add(new Message(sendingMessage, true, date.getTime()));
-            messagesAdapter.notifyItemInserted(messageList.size() - 1);
-            messageBox.setText(null);
-            hideReadyNote();
+        messageList.add(new Message(sendingMessage, true, new Date()));
+        messagesAdapter.notifyItemInserted(messageList.size() - 1);
+        messageBox.setText(null);
+        hideReadyNote();
   //          Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_LONG).show();
   //       } catch (Exception e) {
  //           Toast.makeText(getApplicationContext(), "Message failed to send.", Toast.LENGTH_LONG).show();
