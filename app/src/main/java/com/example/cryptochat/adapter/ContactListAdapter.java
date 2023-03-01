@@ -16,7 +16,6 @@ import com.example.cryptochat.pojo.Contact;
 import com.example.cryptochat.utils.CryptoChatConstants;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 
@@ -63,12 +62,12 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     @Override
     public int getItemCount() {
-        return contactList.size();
+        return contactList != null ? contactList.size() : 0;
     }
 
     @SuppressLint("NotifyDataSetChanged")
     public void printContact(Contact contact) {
-        if(contactList == null){
+        if (contactList == null) {
             contactList = new ArrayList<>();
         }
         contactList.add(contact);
