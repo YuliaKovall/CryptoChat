@@ -1,18 +1,19 @@
 package com.example.cryptochat.pojo;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Message {
 
-    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
+    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     private String message;
     private boolean isSentByCurrentUser;
-    private long timeStamp;
+    private Date time;
 
-    public Message(String message, boolean isSentByCurrentUser, long timeStamp) {
+    public Message(String message, boolean isSentByCurrentUser, Date time) {
         this.message = message;
         this.isSentByCurrentUser = isSentByCurrentUser;
-        this.timeStamp = timeStamp;
+        this.time = time;
     }
 
     public String getMessage() {
@@ -23,11 +24,11 @@ public class Message {
         return isSentByCurrentUser;
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public Date getTime() {
+        return time;
     }
 
     public String getFormattedTime() {
-        return timeFormat.format(timeStamp);
+        return timeFormat.format(time.getTime());
     }
 }
