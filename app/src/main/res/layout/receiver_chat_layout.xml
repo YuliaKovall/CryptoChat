@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="320dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:maxWidth="320dp"
+    android:layout_gravity="start"
+    android:layout_alignParentStart="true"
     android:layout_marginStart="12dp"
-    android:layout_marginRight="50dp"
+    android:layout_marginEnd="70dp"
     android:padding="2dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:background="@drawable/receiver_chat_drawable"
         android:id="@+id/layoutformessage"
         tools:ignore="UselessParent">
@@ -24,9 +28,8 @@
             android:paddingBottom="21dp"
             android:paddingTop="13dp"
             android:paddingEnd="13dp"
-            android:id="@+id/sendermessage">
+            android:id="@+id/sendermessage"/>
 
-        </TextView>
 
         <TextView
             android:layout_width="wrap_content"

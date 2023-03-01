@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -29,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
-    ImageButton backButton, sendButton;
+    ImageButton backButton, sendButton, encryptButton;
     TextView contactName, contactNumber, backWord;
     String contactNumberStr, sendingMessage;
     EditText messageBox;
@@ -42,7 +43,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     BroadcastReceiver intentReceiver;
     LinearLayout uniqueKeyOkNote;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +51,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         contactNumber = findViewById(R.id.contactNumber);
         backWord = findViewById(R.id.chat_back_word);
         backButton = findViewById(R.id.chat_back_button);
+        encryptButton = findViewById(R.id.encryptButton);
         sendButton = findViewById(R.id.sendButton);
         messageBox = findViewById(R.id.messageBox);
         uniqueKeyOkNote = findViewById(R.id.unique_key_is_ok);
@@ -63,6 +64,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         contactNumberStr = contactNumber.getText().toString();
         backWord.setOnClickListener(this);
         backButton.setOnClickListener(this);
+        encryptButton.setOnClickListener(this);
         sendButton.setOnClickListener(this);
 
         //TODO
@@ -101,8 +103,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.chat_back_button:
                 finish();
                 break;
+            case R.id.encryptButton:
+                // here should be called method to encrypt massage
+                sendButtonUp();
+                break;
             case R.id.sendButton:
                 sendMessage();
+                encryptButtonUp();
                 break;
         }
     }
@@ -112,10 +119,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         sendingMessage = messageBox.getText().toString();
    //     try {
    //         smsManager.sendTextMessage(contactNumberStr, null, sendingMessage, null, null);//
-        messageList.add(new Message(sendingMessage, true, new Date()));
-        messagesAdapter.notifyItemInserted(messageList.size() - 1);
-        messageBox.setText(null);
-        hideReadyNote();
+        if(sendingMessage != null) {
+            messageList.add(new Message(sendingMessage, true, new Date()));
+            messagesAdapter.notifyItemInserted(messageList.size() - 1);
+            messageBox.setText(null);
+            hideReadyNote();
+        } else {
+            encryptButtonUp();
+        }
   //          Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_LONG).show();
   //       } catch (Exception e) {
  //           Toast.makeText(getApplicationContext(), "Message failed to send.", Toast.LENGTH_LONG).show();
@@ -129,6 +140,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    public void encryptButtonUp() {
+        encryptButton.setElevation(1);
+        sendButton.setElevation(0);
+    }
+    public void sendButtonUp() {
+        encryptButton.setElevation(0);
+        sendButton.setElevation(1);
+    }
 
     @Override
     public void onStart() {

@@ -113,9 +113,21 @@
         android:layout_height="48dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-
+        android:elevation="0dp"
         android:background="@drawable/send_button_background"
-        android:src="@drawable/send_massage_key"
+        android:src="@drawable/send_button_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/encryptButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:elevation="1dp"
+        android:background="@drawable/encrypt_button_background"
+        android:src="@drawable/encrypt_button_key"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

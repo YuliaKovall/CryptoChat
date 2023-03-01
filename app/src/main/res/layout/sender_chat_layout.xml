@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="320dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="end"
+    android:layout_alignParentEnd="true"
+    android:maxWidth="320dp"
+    android:layout_marginStart="70dp"
     android:layout_marginEnd="12dp"
     android:padding="2dp">
 
@@ -16,20 +19,18 @@
         tools:ignore="UselessParent">
 
         <TextView
+            android:id="@+id/sendermessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sender massage will be here"
-            android:textSize="18sp"
-            android:textColor="@color/universal_white"
             android:fontFamily="@font/roboto_regular"
-            android:textFontWeight="400"
             android:paddingStart="13dp"
-            android:paddingBottom="21dp"
             android:paddingTop="13dp"
             android:paddingEnd="13dp"
-            android:id="@+id/sendermessage">
-
-        </TextView>
+            android:paddingBottom="21dp"
+            android:text="Sender massage will be here"
+            android:textColor="@color/universal_white"
+            android:textFontWeight="400"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
