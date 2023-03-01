@@ -2,7 +2,7 @@
     <string name="app_name">CryptoChat</string>
     <string name="chat_list_is_empty_head">Чати відсутні</string>
     <string name="chat_list_is_empty_body">Ви можете додати чати, натиснувши на кнопку у правому верхньому куті або на кнопку нижче</string>
-    <string name="user_name">Name</string>
+    <string name="contact_name">Name</string>
     <string name="message_text">Message</string>
     <string name="message_count">Count</string>
     <string name="message_time">Time</string>
@@ -12,4 +12,17 @@
     <string name="ready_note2">Спробуйте набрати і зашифрувати повідомлення.</string>
     <string name="ready_note3">Почніть набирати нижче.</string>
     <string name="back_word">Назад</string>
+    <string name="enterTheKey">Введіть унікальний ключ для цього чату</string>
+    <string name="hintForTheUserAboutTheKey1">Ви домовлялися про нього зі своїм співрозмовником раніше.</string>
+    <string name="hintForTheUserAboutTheKey2">* Щонайменше 16 символів</string>
+    <string name="popUpButtonText">Далі</string>
+    <string name="hintForTheUserAboutTheKey3">Почніть вводити</string>
+    <string name="notEnoughCharsError">*Введено недостатню кількість символів</string>
+    <string name="numberOfCharacters"> </string>
+    <string name="list_contacts">Список контактів</string>
+    <string name="chat_list">Чати</string>
+    <string name="back_to_chat_list">Назад до Чатів</string>
+    <string name="setting">Налаштування</string>
+    <string name="contact_number">Номер абонента</string>
+
 </resources>

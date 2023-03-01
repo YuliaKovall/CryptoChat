@@ -19,7 +19,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.loading_screen_layout);
+        setContentView(R.layout.activity_loading_screen);
         imageView=(ImageView)findViewById(R.id.rotatingWheel);
         rotateLoadingWheelAnimation();
 
@@ -28,7 +28,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     // Start the main activity after the delay time
-                    Intent intent = new Intent(LoadingScreenActivity.this, WelcomeScreen.class);
+                    Intent intent = new Intent(LoadingScreenActivity.this, WelcomeScreenActivity.class);
                     startActivity(intent);
                     // Finish the loading activity to remove it from the back stack
                     finish();
