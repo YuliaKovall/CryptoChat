@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.R;
 import com.example.cryptochat.adapter.MessagesAdapter;
+import com.example.cryptochat.pojo.Contact;
 import com.example.cryptochat.pojo.Message;
+import com.example.cryptochat.utils.CryptoChatConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,8 +47,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         readyNote2 = findViewById(R.id.note_you_can_start_chatting3);
 
         Intent intent = getIntent();
-        contactName.setText(intent.getStringExtra("USER_NAME"));
-        contactNumber.setText(intent.getStringExtra("USER_NUMBER"));
+        Contact contact = (Contact) intent.getSerializableExtra(CryptoChatConstants.CONTACT);
+        contactName.setText(contact.getName());
+        contactNumber.setText(contact.getNumber());
         contactNumberStr = contactNumber.getText().toString();
         backWord.setOnClickListener(this);
         backButton.setOnClickListener(this);

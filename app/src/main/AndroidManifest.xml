@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.WelcomeScreen"
+            android:name=".activity.WelcomeScreenActivity"
             android:exported="true" />
     </application>
 

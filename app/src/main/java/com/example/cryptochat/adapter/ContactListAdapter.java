@@ -11,71 +11,67 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.R;
 import com.example.cryptochat.activity.ChatActivity;
-import com.example.cryptochat.activity.ContactListActivity;
-import com.example.cryptochat.activity.MainActivity;
-import com.example.cryptochat.databinding.ContactItemBinding;
-import com.example.cryptochat.databinding.UserItemBinding;
-import com.example.cryptochat.pojo.User;
+import com.example.cryptochat.databinding.ContactBinding;
+import com.example.cryptochat.pojo.Contact;
+import com.example.cryptochat.utils.CryptoChatConstants;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 
-import java.util.Date;
 import java.util.List;
 
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ContactHolder> {
-    private List<User> userArrayList = new ArrayList<>();
+    private List<Contact> contactList;
 
     public ContactListAdapter() {
     }
 
-    public ContactListAdapter(List<User> userArrayList) {
-        this.userArrayList = userArrayList;
-    }
-
     public class ContactHolder extends RecyclerView.ViewHolder {
-        private @NonNull ContactItemBinding binding;
+        private @NonNull ContactBinding binding;
 
         public ContactHolder(View view) {
             super(view);
-            binding = ContactItemBinding.bind(view);
+            binding = ContactBinding.bind(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    int position = getAdapterPosition();
                     Intent intent = new Intent(view.getContext(), ChatActivity.class);
+                    intent.putExtra(CryptoChatConstants.CONTACT, contactList.get(position));
                     view.getContext().startActivity(intent);
                 }
             });
         }
 
-        public void bind(User user) {
-            binding.name.setText(user.getUserName());
-            binding.contactNumber.setText(user.getUserNumber());
+        public void bind(Contact contact) {
+            binding.name.setText(contact.getName());
+            binding.contactNumber.setText(contact.getNumber());
         }
     }
 
     @NonNull
     @Override
     public ContactHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact, parent, false);
         return new ContactHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ContactHolder holder, int position) {
-        holder.bind(userArrayList.get(position));
+        holder.bind(contactList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return userArrayList.size();
+        return contactList.size();
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void addUser(User user) {
-        userArrayList.add(user);
+    public void printContact(Contact contact) {
+        if(contactList == null){
+            contactList = new ArrayList<>();
+        }
+        contactList.add(contact);
         notifyDataSetChanged();
     }
 }

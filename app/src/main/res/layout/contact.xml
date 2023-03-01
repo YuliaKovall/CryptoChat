@@ -19,7 +19,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto_bold"
         android:padding="3dp"
-        android:text="@string/user_name"
+        android:text="@string/contact_name"
         android:textColor="@color/universal_black"
 
         android:textSize="18sp"

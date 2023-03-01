@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.R;
 import com.example.cryptochat.activity.ChatActivity;
-import com.example.cryptochat.databinding.UserItemBinding;
-import com.example.cryptochat.pojo.User;
+import com.example.cryptochat.databinding.ChatItemBinding;
+import com.example.cryptochat.pojo.ChatItem;
+import com.example.cryptochat.utils.CryptoChatConstants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,41 +21,35 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
-    private List<User> userArrayList = new ArrayList<>();
+public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatItemHolder> {
+    private List<ChatItem> chatItemList;
 
-    public UserAdapter() {
+    public ChatListAdapter() {
     }
 
-    public UserAdapter(List<User> userArrayList) {
+    public class ChatItemHolder extends RecyclerView.ViewHolder {
+        private ChatItemBinding binding;
 
-        this.userArrayList = userArrayList;
-    }
-
-    public class UserHolder extends RecyclerView.ViewHolder {
-        private UserItemBinding binding;
-
-        public UserHolder(View view) {
+        public ChatItemHolder(View view) {
             super(view);
-            binding = UserItemBinding.bind(view);
+            binding = ChatItemBinding.bind(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int positionIndex = getAdapterPosition();
-                    User selectedUser = userArrayList.get(positionIndex);
+                    ChatItem selectedChatItem = chatItemList.get(positionIndex);
                     Intent intent = new Intent(view.getContext(), ChatActivity.class);
-                    intent.putExtra("USER_NAME", selectedUser.getUserName());
-                    intent.putExtra("USER_NUMBER", selectedUser.getUserNumber());
+                    intent.putExtra(CryptoChatConstants.CONTACT, selectedChatItem.getContact());
                     view.getContext().startActivity(intent);
                 }
             });
         }
 
-        public void bind(User user) {
-            binding.name.setText(user.getUserName());
-            binding.message.setText(user.getMessage());
-            binding.count.setText(String.valueOf(user.getCount()));
-            binding.time.setText(String.valueOf(formatTimeDate(user.getTime())));
+        public void bind(ChatItem chatItem) {
+            binding.name.setText(chatItem.getContactName());
+            binding.message.setText(chatItem.getMessage());
+            binding.count.setText(String.valueOf(chatItem.getNumberUnreadMessages()));
+            binding.time.setText(String.valueOf(formatTimeDate(chatItem.getTime())));
         }
     }
 
@@ -75,25 +70,28 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
 
     @NonNull
     @Override
-    public UserHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
-        return new UserHolder(itemView);
+    public ChatItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item, parent, false);
+        return new ChatItemHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserHolder holder, int position) {
-        Collections.sort(userArrayList, (user1, user2) -> user2.getTime().compareTo(user1.getTime()));
-        holder.bind(userArrayList.get(position));
+    public void onBindViewHolder(@NonNull ChatItemHolder holder, int position) {
+        Collections.sort(chatItemList, (chatItem1, chatItem2) -> chatItem2.getTime().compareTo(chatItem1.getTime()));
+        holder.bind(chatItemList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return userArrayList.size();
+        return chatItemList.size();
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void addUser(User user) {
-        userArrayList.add(user);
+    public void addChatItem(ChatItem chatItem) {
+        if(chatItemList == null){
+            chatItemList = new ArrayList<>();
+        }
+        chatItemList.add(chatItem);
         notifyDataSetChanged();
     }
 }

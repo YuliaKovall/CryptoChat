@@ -14,16 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cryptochat.adapter.ContactListAdapter;
 import com.example.cryptochat.databinding.ActivityContactListBinding;
-import com.example.cryptochat.pojo.User;
+import com.example.cryptochat.pojo.Contact;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ContactListActivity extends AppCompatActivity {
     private ActivityContactListBinding binding;
     private ContactListAdapter adapter = new ContactListAdapter();
-    private Map<Integer, User> userMap = new HashMap<>();
+    private Map<String, Contact> contactMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class ContactListActivity extends AppCompatActivity {
         binding = ActivityContactListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         init();
-        printUsers();
+        printContactList();
     }
 
     public void chatMassage(View view) {
@@ -39,51 +38,33 @@ public class ContactListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void printUsers() {
-        for (Map.Entry<Integer, User> entry : userMap.entrySet()) {
-            adapter.addUser(entry.getValue());
+    private void printContactList() {
+        for (Map.Entry<String, Contact> entry : contactMap.entrySet()) {
+            adapter.printContact(entry.getValue());
         }
     }
 
     private void init() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         binding.recyclerView.setAdapter(adapter);
-        //setUserInfo();
-        setUserMapFromContacts();
-    }
-
-    private void setUserMapFromContacts() {
-        Map<String, String> contacts = getContactMap(this);
-        int counter = 1;
-        for (Map.Entry<String, String> entry : contacts.entrySet()) {
-            userMap.put(counter, new User(entry.getKey(), entry.getValue(), entry.getValue(), new Date(), counter));
-            counter++;
-        }
+        contactMap = getContactMap(getApplicationContext());
     }
 
     @SuppressLint("Range")
-    private Map<String, String> getContactMap(Context context) {
-        Map<String, String> map = new HashMap<>();
+    private Map<String, Contact> getContactMap(Context context) {
+        Map<String, Contact> map = new HashMap<>();
         ContentResolver cr = context.getContentResolver();
-        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
-                null, null, null, null);
-        if ((cur != null ? cur.getCount() : 0) > 0) {
-            while (cur != null && cur.moveToNext()) {
-                String id = cur.getString(
-                        cur.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cur.getString(cur.getColumnIndex(
-                        ContactsContract.Contacts.DISPLAY_NAME));
-                if (cur.getInt(cur.getColumnIndex(
-                        ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-                    Cursor pCur = cr.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{id}, null);
+        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        if (cur != null && cur.getCount() > 0) {
+            while (cur.moveToNext()) {
+                String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                if (cur.getInt(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
+                    Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
                     while (pCur.moveToNext()) {
-                        String phoneNo = pCur.getString(pCur.getColumnIndex(
-                                ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        map.put(name, phoneNo);
+                        String phoneNo = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        map.put(phoneNo, new Contact(id, name, phoneNo));
                     }
                     pCur.close();
                 }
