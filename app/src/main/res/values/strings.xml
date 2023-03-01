@@ -12,4 +12,9 @@
     <string name="ready_note2">Спробуйте набрати і зашифрувати повідомлення.</string>
     <string name="ready_note3">Почніть набирати нижче.</string>
     <string name="back_word">Назад</string>
+    <string name="list_contacts">Список контактів</string>
+    <string name="chat_list">Чати</string>
+    <string name="setting">Налаштування</string>
+    <string name="contact_number">Номер абонента</string>
+
 </resources>

@@ -56,15 +56,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
             binding.count.setText(String.valueOf(user.getCount()));
             binding.time.setText(String.valueOf(formatTimeDate(user.getTime())));
         }
-
     }
 
-    public String formatTimeDate (Date d){
+    public String formatTimeDate(Date d) {
         String result = "";
         Date now = new Date();
-        if (now.getTime() - d.getTime() < 86400000 && now.getDay() == d.getDay()){
+        if (now.getTime() - d.getTime() < 86400000 && now.getDay() == d.getDay()) {
             result = new SimpleDateFormat("HH:mm:ss").format(d);
-        } else if (now.getTime() - d.getTime() < 172800000 && now.getDay() != d.getDay()){
+        } else if (now.getTime() - d.getTime() < 172800000 && now.getDay() != d.getDay()) {
             result = "учора " + new SimpleDateFormat("HH:mm").format(d);
         } else if (now.getTime() - d.getTime() < 604800000 && now.getDay() != d.getDay()) {
             result = new SimpleDateFormat("E HH:mm").format(d);
