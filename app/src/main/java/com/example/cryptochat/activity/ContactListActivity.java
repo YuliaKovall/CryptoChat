@@ -1,15 +1,21 @@
 package com.example.cryptochat.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cryptochat.adapter.ContactListAdapter;
@@ -20,9 +26,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ContactListActivity extends AppCompatActivity {
+    public static final int REQUEST_CODE_READ_CONTACTS = 1;
+    private static boolean READ_CONTACTS_GRANTED = false;
     private ActivityContactListBinding binding;
     private ContactListAdapter adapter = new ContactListAdapter();
-    private Map<String, Contact> contactMap;
+    private Map<String, Contact> contactMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +55,15 @@ public class ContactListActivity extends AppCompatActivity {
     private void init() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         binding.recyclerView.setAdapter(adapter);
-        contactMap = getContactMap(getApplicationContext());
+        int hasReadContactPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
+        if (hasReadContactPermission == PackageManager.PERMISSION_GRANTED) {
+            READ_CONTACTS_GRANTED = true;
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS}, REQUEST_CODE_READ_CONTACTS);
+        }
+        if (READ_CONTACTS_GRANTED) {
+            contactMap = getContactMap(getApplicationContext());
+        }
     }
 
     @SuppressLint("Range")
@@ -74,5 +90,23 @@ public class ContactListActivity extends AppCompatActivity {
             cur.close();
         }
         return map;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_READ_CONTACTS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                READ_CONTACTS_GRANTED = true;
+                Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (READ_CONTACTS_GRANTED) {
+            contactMap = getContactMap(getApplicationContext());
+        } else {
+            Toast.makeText(this, "Please provide permissions", Toast.LENGTH_LONG).show();
+        }
     }
 }
