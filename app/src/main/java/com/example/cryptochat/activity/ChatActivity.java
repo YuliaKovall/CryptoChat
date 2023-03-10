@@ -5,8 +5,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -104,8 +107,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.encryptButton:
-                // here should be called method to encrypt massage
-                sendButtonUp();
+                if (!messageBox.getText().toString().equals("")) {
+                    // Here should be called method to encrypt massage
+                    messageBox.setText("encrypted message");
+                    sendButtonUp();
+                }
                 break;
             case R.id.sendButton:
                 sendMessage();
@@ -114,25 +120,21 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
+   //Uncomment code to make available real sending of sms
     public void sendMessage() {
         sendingMessage = messageBox.getText().toString();
-   //     try {
-   //         smsManager.sendTextMessage(contactNumberStr, null, sendingMessage, null, null);//
-        if(sendingMessage != null) {
-            messageList.add(new Message(sendingMessage, true, new Date()));
+ /*       try {
+            smsManager.sendTextMessage(contactNumberStr, null, sendingMessage, null, null);//
+ */           messageList.add(new Message(sendingMessage, true, new Date()));
             messagesAdapter.notifyItemInserted(messageList.size() - 1);
             messageBox.setText(null);
             hideReadyNote();
-        } else {
-            encryptButtonUp();
+ /*           Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Message failed to send.", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
         }
-  //          Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_LONG).show();
-  //       } catch (Exception e) {
- //           Toast.makeText(getApplicationContext(), "Message failed to send.", Toast.LENGTH_LONG).show();
- //           e.printStackTrace();
- //       }
-    }
+ */   }
 
     public void hideReadyNote() {
         if (messageList.size() > 0) {
