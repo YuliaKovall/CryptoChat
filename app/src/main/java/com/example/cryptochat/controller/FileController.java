@@ -36,14 +36,28 @@ public class FileController {
         catch (Throwable t) { }
     }
 
-    public static void addAndEditContactKeyMap (Context context, String fileName, String key, String value){
+
+    public static void addAndEditContactKeyMap (Context context, String key, String value){
         Map<String, String> m = new HashMap<>();
+        String fileName = "contactkeymap";
+
         if (openFile(context, fileName) != null) {
             m = (HashMap<String, String>) openFile(context, fileName);
         }
         m.put(key, value);
         saveFile(context, fileName, m);
     }
+
+
+    public static Map<String, String> openContactKeyMap (Context context){
+        Map<String, String> m = new HashMap<>();
+        String fileName = "contactkeymap";
+        if (openFile(context, fileName) != null) {
+            m = (HashMap<String, String>) openFile(context, fileName);
+        }
+        return m;
+    }
+
 
     public static void removeContactKeyMap (Context context, String fileName, String key){
         Map<String, String> m = new HashMap<>();
