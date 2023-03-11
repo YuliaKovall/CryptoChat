@@ -40,7 +40,6 @@ public class FileController {
     public static void addAndEditContactKeyMap (Context context, String key, String value){
         Map<String, String> m = new HashMap<>();
         String fileName = "contactkeymap";
-
         if (openFile(context, fileName) != null) {
             m = (HashMap<String, String>) openFile(context, fileName);
         }
