@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.Editable;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +37,7 @@ import java.util.List;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     ImageButton backButton, sendButton, encryptButton;
+    Drawable encryptButtonBackground;
     TextView contactName, contactNumber, backWord;
     String contactNumberStr, sendingMessage;
     EditText messageBox;
@@ -69,6 +73,26 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         backButton.setOnClickListener(this);
         encryptButton.setOnClickListener(this);
         sendButton.setOnClickListener(this);
+
+        // Encryption button background color change handling
+        encryptButtonBackground = encryptButton.getBackground();
+        messageBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    encryptButtonBackground.setColorFilter(-15132391, PorterDuff.Mode.SRC_IN);
+                    encryptButton.setBackground(encryptButtonBackground);
+                } else {
+                    encryptButtonBackground.setColorFilter(-10066330, PorterDuff.Mode.SRC_IN);
+                    encryptButton.setBackground(encryptButtonBackground);
+                    encryptButtonUp();
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         //TODO
         messageList = new ArrayList<>();
