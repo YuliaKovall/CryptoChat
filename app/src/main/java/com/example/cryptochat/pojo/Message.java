@@ -1,9 +1,10 @@
 package com.example.cryptochat.pojo;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Message {
+public class Message implements Serializable {
 
     private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     private String message;
