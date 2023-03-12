@@ -40,7 +40,6 @@ import com.example.cryptochat.utils.CryptoChatConstants;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     ImageButton backButton, sendButton, encryptButton;
     Drawable encryptButtonBackground;
@@ -76,6 +75,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         contactName.setText(contact.getName());
         contactNumber.setText(contact.getNumber());
         contactNumberStr = contactNumber.getText().toString();
+        contactNameStr = contact.getName();
 
         // Set click listeners
         backWord.setOnClickListener(this);
@@ -85,7 +85,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         messageList = new ArrayList<>();
 
         //Calling PopUp
-        contactNameStr = contact.getName();
         if (!FileController.openContactKeyMap(this).containsKey(contactNumberStr)) {
             PopUpFragment popUpFragment = new PopUpFragment(this, contactNumberStr, contactNameStr, true, null);
             popUpFragment.show();
