@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.R;
 import com.example.cryptochat.adapter.MessagesAdapter;
+import com.example.cryptochat.controller.FileController;
 import com.example.cryptochat.pojo.Contact;
 import com.example.cryptochat.pojo.Message;
 import com.example.cryptochat.utils.CryptoChatConstants;
@@ -82,6 +83,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         encryptButton.setOnClickListener(this);
         sendButton.setOnClickListener(this);
         messageList = new ArrayList<>();
+
+        //Calling PopUp
+        if (!FileController.openContactKeyMap(this).containsKey(contactNumberStr)) {
+            PopUpFragment popUpFragment = new PopUpFragment(this, contactNumberStr, true, null);
+            popUpFragment.show();
+        }
 
         // Hide ready note when tap on message box
         messageBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {

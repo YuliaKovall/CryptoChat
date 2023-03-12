@@ -20,16 +20,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import com.example.cryptochat.R;
-
+import com.example.cryptochat.controller.FileController;
 
 public class PopUpFragment extends Dialog {
     private final Context mContext;
+    private final String contactNumber;
     private String pin;
     private Drawable buttonDrawable;
 
-
-    protected PopUpFragment(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+    protected PopUpFragment(@NonNull Context context, String contactNumber, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+        this.contactNumber = contactNumber;
         mContext = context;
 
     }
@@ -86,18 +87,21 @@ public class PopUpFragment extends Dialog {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 pin = editText.getText().toString().trim();
-                numberOfCharacters.setText("* Введено символів" + " " + pin.length());
+                numberOfCharacters.setText("* Введено символів " + pin.length());
                 imageButton.setVisibility(View.VISIBLE);
                 imageButton.setOnClickListener(view -> editText.setText(""));
                 caret.setVisibility(View.INVISIBLE);
                 trailingIcon.setVisibility(View.INVISIBLE);
-                textViewUnderEditText.setText("* Щонайменше 16 символів");
+                textViewUnderEditText.setText(R.string.hintForTheUserAboutTheKey2);
                 editText.setBackgroundResource(R.drawable.pop_up_edit_text);
 
                 if (pin.length() >= 16) {
                     buttonDrawable = ContextCompat.getDrawable(button.getContext(), R.drawable.pop_up_button);
                     button.setBackground(buttonDrawable);
-                    button.setOnClickListener(view -> dismiss());
+                    button.setOnClickListener(view -> {
+                        FileController.addAndEditContactKeyMap(getContext(), contactNumber, pin);
+                        dismiss();
+                    });
                     textViewUnderEditText.setTextColor(myGrey75);
 
                 } else {
@@ -113,6 +117,6 @@ public class PopUpFragment extends Dialog {
             public void afterTextChanged(Editable s) {
             }
         });
-
     }
+
 }
