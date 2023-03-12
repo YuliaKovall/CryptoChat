@@ -69,7 +69,7 @@ public class PopUpFragment extends Dialog {
                 buttonDrawable = ContextCompat.getDrawable(button.getContext(), R.drawable.pop_up_button);
                 button.setBackground(buttonDrawable);
                 button.setOnClickListener(view -> {
-                    FileController.addAndEditContactKeyMap(getContext(), contactNumber, pin);
+                    FileController.addAndEditContactKeyMap(getContext(), contactNumber, pin, "input name contact");
                     dismiss();
                 });
 

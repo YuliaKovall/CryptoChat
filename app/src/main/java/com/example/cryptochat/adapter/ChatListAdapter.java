@@ -47,9 +47,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatIt
 
         public void bind(ChatItem chatItem) {
             binding.name.setText(chatItem.getContactName());
-            binding.message.setText(chatItem.getMessage());
+            binding.message.setText(chatItem.getLastMessage().getMessage());
             binding.count.setText(String.valueOf(chatItem.getNumberUnreadMessages()));
-            binding.time.setText(String.valueOf(formatTimeDate(chatItem.getTime())));
+            binding.time.setText(String.valueOf(formatTimeDate(chatItem.getLastMessage().getTime())));
         }
     }
 
@@ -77,7 +77,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatIt
 
     @Override
     public void onBindViewHolder(@NonNull ChatItemHolder holder, int position) {
-        Collections.sort(chatItemList, (chatItem1, chatItem2) -> chatItem2.getTime().compareTo(chatItem1.getTime()));
+        Collections.sort(chatItemList, (chatItem1, chatItem2) -> chatItem2.getLastMessage().getTime().compareTo(chatItem1.getLastMessage().getTime()));
         holder.bind(chatItemList.get(position));
     }
 
