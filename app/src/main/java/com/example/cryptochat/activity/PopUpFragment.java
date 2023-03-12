@@ -26,6 +26,7 @@ public class PopUpFragment extends Dialog {
 
     private final Context mContext;
     private final String contactNumber;
+    private final String contactName;
     private String pin;
 
     private TextView numberOfCharacters;
@@ -69,7 +70,7 @@ public class PopUpFragment extends Dialog {
                 buttonDrawable = ContextCompat.getDrawable(button.getContext(), R.drawable.pop_up_button);
                 button.setBackground(buttonDrawable);
                 button.setOnClickListener(view -> {
-                    FileController.addAndEditContactKeyMap(getContext(), contactNumber, pin, "input name contact");
+                    FileController.addAndEditContactKeyMap(getContext(), contactNumber, pin, contactName);
                     dismiss();
                 });
 
@@ -89,9 +90,10 @@ public class PopUpFragment extends Dialog {
         }
     };
 
-    public PopUpFragment(@NonNull Context context, String contactNumber, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+    public PopUpFragment(@NonNull Context context, String contactNumber, String contactName, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
         this.contactNumber = contactNumber;
+        this.contactName = contactName;
         mContext = context;
     }
 

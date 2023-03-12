@@ -45,7 +45,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton backButton, sendButton, encryptButton;
     Drawable encryptButtonBackground;
     TextView contactName, contactNumber, backWord;
-    String contactNumberStr, sendingMessage;
+    String contactNumberStr, sendingMessage, contactNameStr;
     EditText messageBox;
     List<Message> messageList;
     RecyclerView messagesRecyclerView;
@@ -85,8 +85,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         messageList = new ArrayList<>();
 
         //Calling PopUp
+        contactNameStr = contact.getName();
         if (!FileController.openContactKeyMap(this).containsKey(contactNumberStr)) {
-            PopUpFragment popUpFragment = new PopUpFragment(this, contactNumberStr, true, null);
+            PopUpFragment popUpFragment = new PopUpFragment(this, contactNumberStr, contactNameStr, true, null);
             popUpFragment.show();
         }
 
