@@ -36,6 +36,7 @@ import com.example.cryptochat.controller.FileController;
 import com.example.cryptochat.pojo.Contact;
 import com.example.cryptochat.pojo.Message;
 import com.example.cryptochat.utils.CryptoChatConstants;
+import com.example.cryptochat.utils.EasyEncryption;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -159,9 +160,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 view.getContext().startActivity(intent);
                 break;
             case R.id.encryptButton:
-                if (!messageBox.getText().toString().equals("")) {
+                String messageBoxText = messageBox.getText().toString();
+                if (!messageBoxText.equals("")) {
                     // Here should be called method to encrypt massage
-                    messageBox.setText("encrypted message");
+                    messageBoxText = new EasyEncryption(FileController.openContactKeyMap(this).get(contactNumberStr).get(0)).encrypt(messageBoxText);
+                    messageBox.setText(messageBoxText);
                     sendButtonUp();
                 }
                 break;
