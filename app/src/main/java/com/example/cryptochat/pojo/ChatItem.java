@@ -1,8 +1,9 @@
 package com.example.cryptochat.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ChatItem {
+public class ChatItem implements Serializable {
     private Contact contact;
     private String message;
     private Date time;
