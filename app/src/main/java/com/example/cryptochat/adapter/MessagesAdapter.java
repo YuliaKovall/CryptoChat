@@ -18,13 +18,15 @@ public class MessagesAdapter extends RecyclerView.Adapter {
 
     Context context;
     List<Message> messagesList;
+    String key;
 
     int ITEM_SEND=1;
     int ITEM_RECIEVE=2;
 
-    public MessagesAdapter(Context context, List<Message> messagesList) {
+    public MessagesAdapter(Context context, List<Message> messagesList, String key) {
         this.context = context;
         this.messagesList = messagesList;
+        this.key = key;
     }
 
     @NonNull
@@ -41,18 +43,31 @@ public class MessagesAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Message messages=messagesList.get(position);
-        if(holder.getClass()==SenderViewHolder.class)
-        {
+        Message message = messagesList.get(position);
+        if(holder.getClass()==SenderViewHolder.class) {
             SenderViewHolder viewHolder=(SenderViewHolder)holder;
-            viewHolder.textViewMessaage.setText(messages.getMessage());
-            viewHolder.timeOfMessage.setText(messages.getFormattedTime());
-        }
-        else
-        {
+            viewHolder.textViewMessaage.setText(message.getMessage());
+            viewHolder.timeOfMessage.setText(message.getFormattedTime());
+            viewHolder.textViewMessaage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Sending message click handling
+                     message.setMessage("Decrypted by " + key);
+                     notifyDataSetChanged();
+                }
+            });
+        } else {
             RecieverViewHolder viewHolder=(RecieverViewHolder)holder;
-            viewHolder.textViewMessaage.setText(messages.getMessage());
-            viewHolder.timeOfMessage.setText(messages.getFormattedTime());
+            viewHolder.textViewMessaage.setText(message.getMessage());
+            viewHolder.timeOfMessage.setText(message.getFormattedTime());
+            viewHolder.textViewMessaage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Receiving message click handling
+                    message.setMessage("Decrypted by " + key);
+                    notifyDataSetChanged();
+                }
+            });
         }
 
     }
@@ -74,12 +89,10 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     }
 
 
-    class SenderViewHolder extends RecyclerView.ViewHolder
-    {
+    class SenderViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewMessaage;
         TextView timeOfMessage;
-
 
         public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,12 +101,10 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class RecieverViewHolder extends RecyclerView.ViewHolder
-    {
+    class RecieverViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewMessaage;
         TextView timeOfMessage;
-
 
         public RecieverViewHolder(@NonNull View itemView) {
             super(itemView);

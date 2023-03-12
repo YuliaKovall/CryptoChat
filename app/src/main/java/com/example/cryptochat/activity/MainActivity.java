@@ -56,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setChatItemInfo() {
-        chatItemMap.put(1, new ChatItem(new Contact("1", "Jhon", "+38067382333"), "Ok!", new Date(1677229871000L), 2));
-        chatItemMap.put(2, new ChatItem(new Contact("2", "Bili", "+38067382335"), "Hi!", new Date(1677362266064L), 3));
-        chatItemMap.put(3, new ChatItem(new Contact("3", "Kolia", "+38067356334"), "How are you?", new Date(1677362166064L), 1));
+        chatItemMap.put(1, new ChatItem(new Contact("1", "Me", "+38068381"), "Ok!", new Date(1677229871000L), 2));
+        chatItemMap.put(2, new ChatItem(new Contact("2", "Lola", "+3806838138023"), "Hi!", new Date(1677362266064L), 3));
+        chatItemMap.put(3, new ChatItem(new Contact("3", "Kolia", "+380673564"), "How are you?", new Date(1677362166064L), 1));
     }
 
 
