@@ -1,55 +1,39 @@
 package com.example.cryptochat.utils;
 
 public class EasyEncryption {
-    private static String password;
+    private final String password;
 
     public EasyEncryption(String password) {
-        EasyEncryption.password = password;
+        this.password = password;
     }
 
-    private static char[] adding(String str, boolean toCrypt) {
+    private char[] adding(String str, boolean toCrypt) {
         char[] chars = str.toCharArray();
-        if (toCrypt) {
-            for (int i = 0; i < chars.length; i++) {
-                chars[i] = (char) (chars[i] + 1);
-            }
-        } else {
-            for (int i = 0; i < chars.length; i++) {
-                chars[i] = (char) (chars[i] - 1);
-            }
+        int offset = toCrypt ? 1 : -1;
+        for (int i = 0; i < chars.length; i++) {
+            chars[i] = (char) (chars[i] + offset);
         }
         return chars;
     }
 
-    private static void invert(char[] chars) {
-        for (int i = 0; i < chars.length / 2; i++) {
+    private void invert(char[] chars) {
+        int length = chars.length;
+        for (int i = 0; i < length / 2; i++) {
             char temp = chars[i];
-            chars[i] = chars[chars.length - 1 - i];
-            chars[chars.length - 1 - i] = temp;
+            chars[i] = chars[length - 1 - i];
+            chars[length - 1 - i] = temp;
         }
     }
 
     public String encrypt(String str) {
-        char[] chars;
-        if (password.length() % 2 == 0) {
-            chars = adding(str, true);
-        } else {
-            chars = adding(str, false);
-        }
+        char[] chars = adding(str, password.length() % 2 == 0);
         invert(chars);
         return new String(chars);
     }
 
     public String uncrypt(String str) {
-        char[] chars;
-        if (password.length() % 2 == 0) {
-            chars = adding(str, false);
-        } else {
-            chars = adding(str, true);
-        }
-        // знову інвертування масиву символів
+        char[] chars = adding(str, password.length() % 2 != 0);
         invert(chars);
-        // повернення результуючого рядка
         return new String(chars);
     }
 }
