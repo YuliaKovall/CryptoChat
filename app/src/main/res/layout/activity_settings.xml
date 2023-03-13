@@ -228,7 +228,7 @@ tools:context=".activity.MainActivity">
     android:layout_height="wrap_content"
     android:text="@string/chat_list"
     android:textSize="16sp"
-    android:textColor="@color/universal_black"
+    android:textColor="@color/black_opacity_30"
     android:gravity="center"
     android:layout_marginBottom="23dp"
     app:layout_constraintStart_toStartOf="@id/left_button_background"
@@ -260,7 +260,7 @@ tools:context=".activity.MainActivity">
     app:layout_constraintBottom_toTopOf="@id/bottom_button_chats"
     app:layout_constraintBottom_toBottomOf="@id/bottom_button_chats"
 
-    app:srcCompat="@drawable/icon_chats" />
+    app:srcCompat="@drawable/icon_chats_disabled" />
 
 <ImageView
     android:id="@+id/bottom_icon_settings"
@@ -281,6 +281,16 @@ tools:context=".activity.MainActivity">
     app:layout_constraintTop_toTopOf="@id/right_button_background"
     app:layout_constraintWidth_percent="0.5"
     app:layout_constraintHorizontal_bias="0"/>
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/right_button_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_screen_heading"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
