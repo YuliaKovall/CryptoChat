@@ -45,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_weight="7"
+            android:layout_weight="9"
             android:fontFamily="@font/mariupol_regular"
             android:text="@string/list_contacts"
             android:textColor="@color/universal_black"
@@ -56,13 +56,13 @@
 
     <ImageView
         android:id="@+id/left_button_background"
-        android:layout_width="198dp"
+        android:layout_width="0dp"
         android:layout_height="80dp"
         android:background="@color/light_theme_dark_background"
         android:onClick="chatMassage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.5" />
+        app:layout_constraintWidth_percent="0.502" />
 
     <ImageView
         android:id="@+id/right_button_background"
@@ -71,7 +71,7 @@
         android:background="@color/light_theme_dark_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintWidth_percent="0.502"
         app:layout_constraintHorizontal_bias="1" />
 
     <TextView
