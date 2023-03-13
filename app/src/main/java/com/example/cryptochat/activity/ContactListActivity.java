@@ -22,8 +22,10 @@ import com.example.cryptochat.adapter.ContactListAdapter;
 import com.example.cryptochat.databinding.ActivityContactListBinding;
 import com.example.cryptochat.pojo.Contact;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ContactListActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_READ_CONTACTS = 1;
@@ -68,7 +70,14 @@ public class ContactListActivity extends AppCompatActivity {
 
     @SuppressLint("Range")
     private Map<String, Contact> getContactMap(Context context) {
-        Map<String, Contact> map = new HashMap<>();
+        Map<String, Contact> map = new TreeMap<>();
+        Comparator<Contact> contactNameComparator = (o1, o2) -> o1.getName().compareTo(o2.getName());
+        Comparator<String> contactComparator = (o1, o2) -> {
+            Contact c1 = map.get(o1);
+            Contact c2 = map.get(o2);
+            return contactNameComparator.compare(c1, c2);
+        };
+        Map<String, Contact> sortedContact = new TreeMap<>(contactComparator);
         ContentResolver cr = context.getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
         if (cur != null && cur.getCount() > 0) {
@@ -89,7 +98,8 @@ public class ContactListActivity extends AppCompatActivity {
         if (cur != null) {
             cur.close();
         }
-        return map;
+        sortedContact.putAll(map);
+        return sortedContact;
     }
 
     @Override
