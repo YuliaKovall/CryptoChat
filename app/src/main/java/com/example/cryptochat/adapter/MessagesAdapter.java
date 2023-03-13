@@ -134,4 +134,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
 }

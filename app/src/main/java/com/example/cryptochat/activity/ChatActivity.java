@@ -98,13 +98,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         //Calling PopUp
         if (!FileController.openContactKeyMap(this).containsKey(contactNumberStr)) {
             PopUpFragment popUpFragment = new PopUpFragment(this, contactNumberStr, contactNameStr, true, null);
-            popUpFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    // Виконуємо дії після закриття вікна PopUp
-                    uniquePassword = (Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr))).get(0);
-                    easyEncryption = new EasyEncryption(Objects.requireNonNull(uniquePassword));
-                }
+            popUpFragment.setOnDismissListener(dialogInterface -> {
+                uniquePassword = (Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr))).get(0);
+                easyEncryption = new EasyEncryption(Objects.requireNonNull(uniquePassword));
+                messagesAdapter.setKey(uniquePassword);
             });
             popUpFragment.show();
         }else{
