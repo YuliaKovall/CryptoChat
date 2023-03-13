@@ -36,5 +36,6 @@
     <color name="universal_text_grey_50">#808080</color>
     <color name="universal_text_grey_75">#BFBFBF</color>
     <color name="dark_F24">#2A2F24</color>
+    <color name="white_opacity_8">#1AFFFFFF</color>
 
 </resources>

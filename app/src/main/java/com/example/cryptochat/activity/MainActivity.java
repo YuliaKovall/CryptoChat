@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.cryptochat.R;
 import com.example.cryptochat.adapter.ChatListAdapter;
 import com.example.cryptochat.databinding.ActivityMainBinding;
 import com.example.cryptochat.pojo.ChatItem;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private ChatListAdapter adapter = new ChatListAdapter();
     private Map<Integer, ChatItem> chatItemMap = new HashMap<>();
+    private ImageView settingsBackButton;
 
 
     @Override
@@ -37,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
         grantPermissions();
         init();
         printChatItems();
+
+        settingsBackButton = findViewById(R.id.right_button_background);
+        settingsBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSettings();
+            }
+        });
     }
 
     public void createNewChat(View view) {
@@ -80,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void goToSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
 }
