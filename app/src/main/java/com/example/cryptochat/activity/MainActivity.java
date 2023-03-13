@@ -1,11 +1,17 @@
 package com.example.cryptochat.activity;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,22 +20,26 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.cryptochat.R;
 import com.example.cryptochat.adapter.ChatListAdapter;
+import com.example.cryptochat.controller.FileController;
 import com.example.cryptochat.databinding.ActivityMainBinding;
 import com.example.cryptochat.pojo.ChatItem;
 import com.example.cryptochat.pojo.Contact;
 import com.example.cryptochat.pojo.Message;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private ChatListAdapter adapter = new ChatListAdapter();
-    private Map<Integer, ChatItem> chatItemMap = new HashMap<>();
-    private ImageView settingsBackButton;
+    private List<ChatItem> chatItemList;
+    private BroadcastReceiver intentReceiver;
+    private IntentFilter intentFilter;
 
 
     @Override
@@ -40,14 +50,6 @@ public class MainActivity extends AppCompatActivity {
         grantPermissions();
         init();
         printChatItems();
-
-        settingsBackButton = findViewById(R.id.right_button_background);
-        settingsBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToSettings();
-            }
-        });
     }
 
     public void createNewChat(View view) {
@@ -56,22 +58,91 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void printChatItems() {
-        for (Map.Entry<Integer, ChatItem> entry : chatItemMap.entrySet()) {
-            adapter.addChatItem(entry.getValue());
+        for (ChatItem chatItem: chatItemList) {
+            adapter.addChatItem(chatItem);
         }
     }
 
     private void init() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         binding.recyclerView.setAdapter(adapter);
-        setChatItemInfo();
+        chatItemList = formChatItemList();
+        // Set up a BroadcastReceiver for receiving new messages
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("SMS_RECEIVED_ACTION");
+        intentReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String number = intent.getExtras().getString("number");
+                String message = intent.getExtras().getString("message");
+                for (ChatItem item : chatItemList) {
+                    if (item.getContactNumber().equals(number)) {
+                        item.setMessage(message);
+                        item.setTime(new Date());
+                        item.setNumberUnreadMessages(item.getNumberUnreadMessages() + 1);
+                        adapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+            }
+        };
     }
 
-    private void setChatItemInfo() {
-        chatItemMap.put(1, new ChatItem(new Contact("1", "Jhon", "+38067382333"), new Message("Ok!", true, new Date(1677229871000L)), 2));
-        chatItemMap.put(2, new ChatItem(new Contact("2","Bili", "+38067382335"), new Message("Hi!", true, new Date(1677362266064L)), 3));
-        chatItemMap.put(3, new ChatItem(new Contact("3","Kolia", "+38067356334"), new Message("How are you?", true, new Date(1677362166064L)), 1));
+    private List<ChatItem> formChatItemList() {
+        Date time;
+        Cursor cursor;
+        Contact contact;
+        String[] projection, selectionArgs;
+        String number, selection, sortOrder, message, password;
+        List<ChatItem> result = new ArrayList<>();
+        Map<String, List<String>> contactKeyMap = FileController.openContactKeyMap(this);
+        ContentResolver contentResolver = getContentResolver();
+
+        for (String key : contactKeyMap.keySet()) {
+            number = key;
+            projection = new String[]{"_id", "address", "date", "body", "type", "read"};
+            selection = "address=? AND date=(SELECT MAX(date) FROM sms WHERE address=?)";
+            selectionArgs = new String[]{number, number};
+            sortOrder = "date DESC";
+            cursor = contentResolver.query(Uri.parse("content://sms/"), projection, selection, selectionArgs, sortOrder);
+
+            // Form item if chat history already exist
+            if (cursor != null && cursor.moveToFirst()) {
+                message = "";
+                int bodyIndex = cursor.getColumnIndex("body");
+                if (bodyIndex >= 0) {
+                    message = cursor.getString(bodyIndex);
+                }
+                long timeInMillis = 0;
+                int dateIndex = cursor.getColumnIndex("date");
+                if (dateIndex >= 0) {
+                    timeInMillis = cursor.getLong(dateIndex);
+                }
+                time = new Date(timeInMillis);
+                int typeIndex = cursor.getColumnIndex("type");
+                int numberUnreadMessages = 0;
+                if (typeIndex >= 0 && cursor.getInt(typeIndex) == Telephony.Sms.MESSAGE_TYPE_INBOX) {
+                    int readIndex = cursor.getColumnIndex("read");
+                    if (readIndex >= 0 && cursor.getInt(readIndex) == 0) {
+                        numberUnreadMessages = 1;
+                    }
+                }
+                password = contactKeyMap.get(key).get(0);
+                contact = new Contact(contactKeyMap.get(key).get(1), key);
+                result.add(new ChatItem(contact, password, message, time, numberUnreadMessages));
+            } else {
+                // Form item if there is no chat history
+                password = contactKeyMap.get(key).get(0);
+                contact = new Contact(contactKeyMap.get(key).get(1), key);
+                try {
+                    time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(contactKeyMap.get(key).get(2));
+                }catch (ParseException e) {time = new Date();}
+                result.add(new ChatItem(contact, password, "Немає повідомлень", time, 0));
+            }
+        }
+        return result;
     }
+
 
 
     protected void grantPermissions() {
@@ -93,9 +164,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void goToSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+    @Override
+    protected void onResume() {
+        //register the receiver
+        registerReceiver(intentReceiver, intentFilter);
+        super.onResume();
     }
+
+    @Override
+    protected void onPause() {
+        //unregister the receiver
+        unregisterReceiver(intentReceiver);
+        super.onPause();
+    }
+
+
 
 }

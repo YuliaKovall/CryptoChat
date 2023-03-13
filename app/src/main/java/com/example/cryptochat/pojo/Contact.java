@@ -12,6 +12,13 @@ public class Contact implements Serializable {
       this.id = id;
       this.name = name;
       this.number = number;
+      formatNumber();
+   }
+
+   public Contact(String name, String number) {
+      this.name = name;
+      this.number = number;
+      formatNumber();
    }
 
    public String getId() {
@@ -36,6 +43,13 @@ public class Contact implements Serializable {
 
    public void setNumber(String number) {
       this.number = number;
+   }
+
+   private void formatNumber() {
+      number = number.replaceAll("\\s+", "");
+      if (!number.startsWith("+38")) {
+         number = "+38" + number;
+      }
    }
 
    @Override

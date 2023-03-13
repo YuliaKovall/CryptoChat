@@ -1,24 +1,22 @@
 package com.example.cryptochat.activity;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.PendingIntent;
-import android.content.DialogInterface;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.database.MergeCursor;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -27,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,7 +45,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton backButton, sendButton, encryptButton;
     Drawable encryptButtonBackground;
     TextView contactName, contactNumber, backWord;
-    String contactNumberStr, sendingMessage, contactNameStr;
+    String contactNumberStr, sendingMessage, contactNameStr, uniquePassword;
     EditText messageBox;
     List<Message> messageList;
     RecyclerView messagesRecyclerView;
@@ -74,13 +71,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         messageBox = findViewById(R.id.messageBox);
         uniqueKeyOkNote = findViewById(R.id.unique_key_is_ok);
 
-        // Set contact name and number
+        // Set contact's data
         Intent intent = getIntent();
         Contact contact = (Contact) intent.getSerializableExtra(CryptoChatConstants.CONTACT);
         contactName.setText(contact.getName());
         contactNumber.setText(contact.getNumber());
         contactNumberStr = contactNumber.getText().toString();
         contactNameStr = contact.getName();
+        Log.d(TAG, "Contact Number: " + contactNumberStr);
+        uniquePassword = "key";
+
 
         // Set click listeners
         backWord.setOnClickListener(this);
@@ -141,23 +141,25 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         messagesRecyclerView.setLayoutManager(linearLayoutManager);
-        messagesAdapter = new MessagesAdapter(ChatActivity.this, messageList, "key");
+        messagesAdapter = new MessagesAdapter(ChatActivity.this, messageList, uniquePassword);
         messagesRecyclerView.setAdapter(messagesAdapter);
 
         // Load all previous messages from the contact into the messageList
         loadMessagesFromContact();
         hideReadyNoteIfNeeded();
 
-        // Set up a BroadcastReceiver for receiving new messages and add them to the messageList
+        // Set up a BroadcastReceiver for receiving new messages
         smsManager = SmsManager.getDefault();
         intentFilter = new IntentFilter();
         intentFilter.addAction("SMS_RECEIVED_ACTION");
         intentReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                messageList.add(new Message((intent.getExtras().getString("message")), false, new Date()));
-                messagesAdapter.notifyItemInserted(messageList.size() - 1);
-                messagesRecyclerView.scrollToPosition(messageList.size() - 1);
+                if (intent.getExtras().getString("number").equals(contactNumberStr)) {
+                    messageList.add(new Message((intent.getExtras().getString("message")), false, new Date()));
+                    messagesAdapter.notifyItemInserted(messageList.size() - 1);
+                    messagesRecyclerView.scrollToPosition(messageList.size() - 1);
+                }
             }
         };
     }
@@ -189,7 +191,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     // Uncomment the code for sending SMS through a mobile operator
     public void sendMessage() {
         sendingMessage = messageBox.getText().toString();
-/*        ArrayList<String> messageParts = smsManager.divideMessage(sendingMessage);
+        ArrayList<String> messageParts = smsManager.divideMessage(sendingMessage);
         int messageCount = messageParts.size();
         ArrayList<PendingIntent> sentIntents = new ArrayList<>(messageCount);
         ArrayList<PendingIntent> deliveredIntents = new ArrayList<>(messageCount);
@@ -209,16 +211,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     sentIntents,
                     deliveredIntents
             );
-*/
+
         messageList.add(new Message(sendingMessage, true, new Date()));
         messagesAdapter.notifyItemInserted(messageList.size() - 1);
         messagesRecyclerView.scrollToPosition(messageList.size() - 1);
         messageBox.setText(null);
         Toast.makeText(getApplicationContext(), "Повідомлення надіслано!", Toast.LENGTH_LONG).show();
-/*        } catch (Exception e) {
+        } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Не вдалося надіслати повідомлення. Будь ласка, спробуйте пізніше.", Toast.LENGTH_LONG).show();
         }
-*/
+
     }
 
     private void loadMessagesFromContact() {

@@ -41,12 +41,14 @@ public class FileController {
     }
 
 
-    public static void addAndEditContactKeyMap (Context context, String key, String pin, String nameContact){
+    public static void addAndEditContactKeyMap (Context context, String key, String pin,
+                                                String nameContact, String creatingDate){
         Map<String, List<String>> m = new HashMap<>();
         String fileName = "contactkeymap";
         List<String> l = new ArrayList<>();
         l.add(pin);
         l.add(nameContact);
+        l.add(creatingDate);
         if (openFile(context, fileName) != null) {
             m = (HashMap<String, List<String>>) openFile(context, fileName);
         }

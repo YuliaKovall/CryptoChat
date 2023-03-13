@@ -22,6 +22,9 @@ import androidx.core.content.ContextCompat;
 import com.example.cryptochat.R;
 import com.example.cryptochat.controller.FileController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class PopUpFragment extends Dialog {
 
     private final Context mContext;
@@ -70,7 +73,8 @@ public class PopUpFragment extends Dialog {
                 buttonDrawable = ContextCompat.getDrawable(button.getContext(), R.drawable.pop_up_button);
                 button.setBackground(buttonDrawable);
                 button.setOnClickListener(view -> {
-                    FileController.addAndEditContactKeyMap(getContext(), contactNumber, pin, contactName);
+                    FileController.addAndEditContactKeyMap(getContext(), contactNumber, pin, contactName,
+                            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                     dismiss();
                 });
 
