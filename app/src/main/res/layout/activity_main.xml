@@ -145,6 +145,54 @@
         app:layout_constraintTop_toTopOf="@id/left_button_background"
         app:layout_constraintWidth_percent="0.5"
         app:layout_constraintHorizontal_bias="0"/>
+    <LinearLayout
+        android:id="@+id/welcome_screen_main_text"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corners"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints">
 
+        <TextView
+            android:id="@+id/note_chats_list_is_empty1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chat_list_is_empty_head"
+            android:fontFamily="@font/mariupol_regular"
+            android:textColor="@color/universal_black"
+            android:textFontWeight="700"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+        <TextView
+            android:id="@+id/note_chats_list_is_empty2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chat_list_is_empty_body"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/universal_black"
+            android:textSize="16sp"
+            android:lineHeight="21dp"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"/>
+
+        <ImageView
+            android:id="@+id/button_create_first_chat"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/icon_create_first_chat"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackgroundBorderless" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
