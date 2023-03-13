@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver intentReceiver;
     private IntentFilter intentFilter;
     private LinearLayout emptyChatListNote;
+    private ImageView settingsBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
         grantPermissions();
         init();
         printChatItems();
+
+        settingsBackButton = findViewById(R.id.right_button_background);
+        settingsBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSettings();
+            }
+        });
     }
 
     public void createNewChat(View view) {
@@ -186,5 +196,9 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    public void goToSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
 
 }
