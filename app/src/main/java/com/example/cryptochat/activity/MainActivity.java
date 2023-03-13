@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.cryptochat.R;
 import com.example.cryptochat.adapter.ChatListAdapter;
 import com.example.cryptochat.controller.FileController;
 import com.example.cryptochat.databinding.ActivityMainBinding;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private List<ChatItem> chatItemList;
     private BroadcastReceiver intentReceiver;
     private IntentFilter intentFilter;
-
+    private LinearLayout emptyChatListNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void printChatItems() {
-        for (ChatItem chatItem: chatItemList) {
+        for (ChatItem chatItem : chatItemList) {
             adapter.addChatItem(chatItem);
         }
     }
@@ -67,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         binding.recyclerView.setAdapter(adapter);
         chatItemList = formChatItemList();
+        emptyChatListNote= findViewById(R.id.welcome_screen_main_text);
+        if (formChatItemList().size() > 0) {
+            emptyChatListNote.setVisibility(View.GONE);
+        }
         // Set up a BroadcastReceiver for receiving new messages
         intentFilter = new IntentFilter();
         intentFilter.addAction("SMS_RECEIVED_ACTION");
@@ -87,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+
 
     private List<ChatItem> formChatItemList() {
         Date time;
@@ -136,13 +143,14 @@ public class MainActivity extends AppCompatActivity {
                 contact = new Contact(contactKeyMap.get(key).get(1), key);
                 try {
                     time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(contactKeyMap.get(key).get(2));
-                }catch (ParseException e) {time = new Date();}
+                } catch (ParseException e) {
+                    time = new Date();
+                }
                 result.add(new ChatItem(contact, password, "Немає повідомлень", time, 0));
             }
         }
         return result;
     }
-
 
 
     protected void grantPermissions() {
@@ -177,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(intentReceiver);
         super.onPause();
     }
-
 
 
 }
