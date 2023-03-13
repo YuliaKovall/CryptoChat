@@ -32,19 +32,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.R;
 import com.example.cryptochat.adapter.MessagesAdapter;
+import com.example.cryptochat.controller.FileController;
 import com.example.cryptochat.pojo.Contact;
 import com.example.cryptochat.pojo.Message;
 import com.example.cryptochat.utils.CryptoChatConstants;
+import com.example.cryptochat.utils.EasyEncryption;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     ImageButton backButton, sendButton, encryptButton;
     Drawable encryptButtonBackground;
     TextView contactName, contactNumber, backWord;
-    String contactNumberStr, sendingMessage;
+    String contactNumberStr, sendingMessage, contactNameStr;
     EditText messageBox;
     List<Message> messageList;
     RecyclerView messagesRecyclerView;
@@ -75,6 +76,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         contactName.setText(contact.getName());
         contactNumber.setText(contact.getNumber());
         contactNumberStr = contactNumber.getText().toString();
+        contactNameStr = contact.getName();
 
         // Set click listeners
         backWord.setOnClickListener(this);
@@ -82,6 +84,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         encryptButton.setOnClickListener(this);
         sendButton.setOnClickListener(this);
         messageList = new ArrayList<>();
+
+        //Calling PopUp
+        if (!FileController.openContactKeyMap(this).containsKey(contactNumberStr)) {
+            PopUpFragment popUpFragment = new PopUpFragment(this, contactNumberStr, contactNameStr, true, null);
+            popUpFragment.show();
+        }
 
         // Hide ready note when tap on message box
         messageBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -152,9 +160,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 view.getContext().startActivity(intent);
                 break;
             case R.id.encryptButton:
-                if (!messageBox.getText().toString().equals("")) {
+                String messageBoxText = messageBox.getText().toString();
+                if (!messageBoxText.equals("")) {
                     // Here should be called method to encrypt massage
-                    messageBox.setText("encrypted message");
+                    messageBoxText = new EasyEncryption(FileController.openContactKeyMap(this).get(contactNumberStr).get(0)).encrypt(messageBoxText);
+                    messageBox.setText(messageBoxText);
                     sendButtonUp();
                 }
                 break;
