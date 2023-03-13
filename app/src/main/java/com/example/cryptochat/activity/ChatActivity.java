@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,8 @@ import com.example.cryptochat.utils.EasyEncryption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     ImageButton backButton, sendButton, encryptButton;
     Drawable encryptButtonBackground;
@@ -54,6 +57,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     IntentFilter intentFilter;
     BroadcastReceiver intentReceiver;
     LinearLayout uniqueKeyOkNote;
+    EasyEncryption easyEncryption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +92,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         //Calling PopUp
         if (!FileController.openContactKeyMap(this).containsKey(contactNumberStr)) {
             PopUpFragment popUpFragment = new PopUpFragment(this, contactNumberStr, contactNameStr, true, null);
+            popUpFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    easyEncryption = new EasyEncryption(Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr)).get(0));
+                }
+            });
             popUpFragment.show();
+        }else{
+            easyEncryption = new EasyEncryption(Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr)).get(0));
         }
-
         // Hide ready note when tap on message box
         messageBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -163,7 +174,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 String messageBoxText = messageBox.getText().toString();
                 if (!messageBoxText.equals("")) {
                     // Here should be called method to encrypt massage
-                    messageBoxText = new EasyEncryption(FileController.openContactKeyMap(this).get(contactNumberStr).get(0)).encrypt(messageBoxText);
+                    messageBoxText = easyEncryption.encrypt(messageBoxText);
                     messageBox.setText(messageBoxText);
                     sendButtonUp();
                 }
