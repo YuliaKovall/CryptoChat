@@ -100,13 +100,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             PopUpFragment popUpFragment = new PopUpFragment(this, contactNumberStr, contactNameStr, true, null);
             popUpFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
-                public void onDismiss(DialogInterface dialog) {
-                    easyEncryption = new EasyEncryption(Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr)).get(0));
+                public void onDismiss(DialogInterface dialogInterface) {
+                    // Виконуємо дії після закриття вікна PopUp
+                    uniquePassword = (Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr))).get(0);
+                    easyEncryption = new EasyEncryption(Objects.requireNonNull(uniquePassword));
                 }
             });
             popUpFragment.show();
         }else{
-            easyEncryption = new EasyEncryption(Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr)).get(0));
+            uniquePassword = (Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr))).get(0);
+            easyEncryption = new EasyEncryption(Objects.requireNonNull(uniquePassword));
         }
         // Hide ready note when tap on message box
         messageBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {

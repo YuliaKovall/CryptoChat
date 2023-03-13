@@ -47,7 +47,7 @@ public class PopUpFragment extends Dialog {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             View.OnClickListener errorOnClick = view -> {
@@ -73,8 +73,7 @@ public class PopUpFragment extends Dialog {
                 buttonDrawable = ContextCompat.getDrawable(button.getContext(), R.drawable.pop_up_button);
                 button.setBackground(buttonDrawable);
                 button.setOnClickListener(view -> {
-                    FileController.addAndEditContactKeyMap(getContext(), contactNumber, pin, contactName,
-                            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                    FileController.addAndEditContactKeyMap(getContext(), contactNumber, pin, contactName, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                     dismiss();
                 });
 

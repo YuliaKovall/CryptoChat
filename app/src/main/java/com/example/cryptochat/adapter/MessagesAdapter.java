@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.R;
 import com.example.cryptochat.pojo.Message;
+import com.example.cryptochat.utils.EasyEncryption;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +22,6 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     Context context;
     List<Message> messagesList;
     String key;
-
     int ITEM_SEND=1;
     int ITEM_RECIEVE=2;
     SimpleDateFormat todayFormat = new SimpleDateFormat("HH:mm");
@@ -33,7 +33,6 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         this.messagesList = messagesList;
         this.key = key;
     }
-
 
     @NonNull
     @Override
@@ -65,6 +64,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = messagesList.get(position);
+        EasyEncryption easyEncryption =new EasyEncryption(key);
         if(holder.getClass()==SenderViewHolder.class) {
             SenderViewHolder viewHolder=(SenderViewHolder)holder;
             viewHolder.textViewMessaage.setText(message.getMessage());
@@ -73,7 +73,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     // Sending message click handling
-                     message.setMessage("Decrypted by " + key);
+                     message.setMessage(easyEncryption.uncrypt(message.getMessage()));
                      notifyDataSetChanged();
                 }
             });
@@ -85,7 +85,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     // Receiving message click handling
-                    message.setMessage("Decrypted by " + key);
+                    message.setMessage(easyEncryption.uncrypt(message.getMessage()));
                     notifyDataSetChanged();
                 }
             });
