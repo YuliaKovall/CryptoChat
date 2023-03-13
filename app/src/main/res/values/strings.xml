@@ -24,5 +24,9 @@
     <string name="back_to_chat_list">Назад до Чатів</string>
     <string name="setting">Налаштування</string>
     <string name="contact_number">Номер абонента</string>
+    <string name="settings_heading">Налаштування</string>
+    <string name="light_theme_on_off">Світлий режим</string>
+    <string name="auto_deleting_of_chats">Автовидалення повідомлень</string>
+    <string name="delete_all_chats">Видалити всі чати</string>
 
 </resources>
