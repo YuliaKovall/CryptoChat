@@ -189,6 +189,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/icon_create_first_chat"
+            android:onClick="createNewChat"
             android:clickable="true"
             android:focusable="true"
             android:background="?android:selectableItemBackgroundBorderless" />
