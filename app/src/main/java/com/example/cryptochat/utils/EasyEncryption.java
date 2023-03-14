@@ -2,6 +2,8 @@ package com.example.cryptochat.utils;
 
 public class EasyEncryption {
     private final String password;
+    private String croppedPassword;
+    private int[] firstPhase;
 
     public EasyEncryption(String password) {
         this.password = password;
@@ -33,4 +35,51 @@ public class EasyEncryption {
         invert(chars);// використовуємо вхідний параметр str як вхідний параметр для invert()
         return new String(adding(new String(chars), !(password.length() % 2 == 0)));
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //Here are methods for obtaining the first 64-bit phase from a password.
+    public void makeFirstPhase(){
+        this.croppedPassword = password.substring(0, 16);
+        this.firstPhase = getAllBinaryArrays(croppedPassword);
+    }
+
+    private static int[][] stringToBinaryArrays(String str) {
+        int[][] result = new int[str.length()][8];
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            for (int j = 0; j < 8; j++) {
+                result[i][j] = (c >> (7 - j)) & 1;
+            }
+        }
+        return result;
+    }
+
+    private static int[][] getFourLastElements(int[][] binaryArrays) {
+        int[][] result = new int[binaryArrays.length][4];
+        for (int i = 0; i < binaryArrays.length; i++) {
+            int[] binaryArray = binaryArrays[i];
+            int startIndex = binaryArray.length - 4;
+            if (startIndex < 0) {
+                startIndex = 0;
+            }
+            int endIndex = binaryArray.length;
+            for (int j = startIndex, k = 0; j < endIndex && k < 4; j++, k++) {
+                result[i][k] = binaryArray[j];
+            }
+        }
+        return result;
+    }
+
+    private static int[] getAllBinaryArrays(String str) {
+        int[] result = new int[str.length() * 4];
+        int[][] binaryArrays = stringToBinaryArrays(str);
+        int[][] lastFourElements = getFourLastElements(binaryArrays);
+        int index = 0;
+        for (int[] lastFourElement : lastFourElements) {
+            for (int i : lastFourElement) {
+                result[index++] = i;
+            }
+        }
+        return result;
+    }
+
 }
