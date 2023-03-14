@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -103,9 +104,11 @@ public class PopUpFragment extends Dialog {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = getWindow();
+        if (window != null) {
+            window.setDimAmount(0.5f);
+            window.setBackgroundDrawableResource(R.drawable.pop_up_background);}
         setContentView(R.layout.pop_up_elements);
-        getWindow().setBackgroundDrawableResource(R.drawable.pop_up_background);
-
         constraintLayout = findViewById(R.id.constraintLayoutPopUp);
         numberOfCharacters = findViewById(R.id.textView5);
         button = findViewById(R.id.button2);
