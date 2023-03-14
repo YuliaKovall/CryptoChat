@@ -2,8 +2,6 @@ package com.example.cryptochat.utils;
 
 public class EasyEncryption {
     private final String password;
-    private String croppedPassword;
-    private int[] firstPhase;
 
     public EasyEncryption(String password) {
         this.password = password;
@@ -38,8 +36,8 @@ public class EasyEncryption {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //Here are methods for obtaining the first 64-bit phase from a password.
     public void makeFirstPhase(){
-        this.croppedPassword = password.substring(0, 16);
-        this.firstPhase = getAllBinaryArrays(croppedPassword);
+        String croppedPassword = password.substring(0, 16);
+        int[] firstPhase = getAllBinaryArrays(croppedPassword);
     }
 
     private static int[][] stringToBinaryArrays(String str) {
