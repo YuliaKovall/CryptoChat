@@ -100,10 +100,15 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             PopUpFragment popUpFragment = new PopUpFragment(this, contactNumberStr, contactNameStr, true, null);
             popUpFragment.setOnDismissListener(dialogInterface -> {
                 uniquePassword = (Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr))).get(0);
+                easyEncryption = new EasyEncryption(Objects.requireNonNull(uniquePassword));
+                messagesAdapter.setKey(uniquePassword);
+                easyEncryption.makeFirstPhase();
             });
             popUpFragment.show();
         }else{
             uniquePassword = (Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr))).get(0);
+            easyEncryption = new EasyEncryption(Objects.requireNonNull(uniquePassword));
+            easyEncryption.makeFirstPhase();
         }
 
 
@@ -181,9 +186,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 view.getContext().startActivity(intent);
                 break;
             case R.id.encryptButton:
-                easyEncryption = new EasyEncryption(Objects.requireNonNull(uniquePassword));
-                messagesAdapter.setKey(uniquePassword);
-                easyEncryption.makeFirstPhase();
                 String messageBoxText = messageBox.getText().toString();
                 if (!messageBoxText.equals("")) {
                     // Here should be called method to encrypt massage

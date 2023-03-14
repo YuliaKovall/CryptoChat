@@ -35,9 +35,9 @@ public class EasyEncryption {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //Here are methods for obtaining the first 64-bit phase from a password.
-    public void makeFirstPhase(){
+    public int[] makeFirstPhase(){
         String croppedPassword = password.substring(0, 16);
-        int[] firstPhase = getAllBinaryArrays(croppedPassword);
+        return getAllBinaryArrays(croppedPassword);
     }
 
     private static int[][] stringToBinaryArrays(String str) {
