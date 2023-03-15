@@ -28,7 +28,7 @@
             android:paddingEnd="13dp"
             android:paddingBottom="21dp"
             android:text="Sender massage will be here"
-            android:textColor="@color/universal_white"
+            android:textColor="@color/white"
             android:textFontWeight="400"
             android:textSize="18sp" />
 

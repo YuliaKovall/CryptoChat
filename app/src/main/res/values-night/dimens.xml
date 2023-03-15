@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size_loading_wheel">190dp</dimen>
+    <dimen name="height_loading_hug">90dp</dimen>
+    <dimen name="width_loading_hug">109dp</dimen>
+    <dimen name="my_value">16dp</dimen>
+</resources>

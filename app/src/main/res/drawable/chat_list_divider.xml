@@ -1,0 +1,12 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="500dp"
+    android:height="10dp"
+    android:viewportWidth="400"
+    android:viewportHeight="2">
+  <path
+      android:strokeWidth="1"
+      android:pathData="M0,0.5L343,0.5"
+      android:strokeAlpha="0.1"
+      android:fillColor="@color/chat_list_divider"
+      android:strokeColor="@color/chat_list_divider"/>
+</vector>
