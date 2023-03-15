@@ -40,7 +40,7 @@
         android:layout_height="24dp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="@id/card_element_of_list_of_chats"
-        app:srcCompat="@drawable/background_for_unread_msgs_counter"
+        app:srcCompat="@drawable/send_button_background"
         app:layout_constraintTop_toTopOf="@id/card_element_of_list_of_chats"
         app:layout_constraintBottom_toBottomOf="@id/card_element_of_list_of_chats"/>
     <TextView
@@ -70,9 +70,9 @@
 
     <ImageView
         android:id="@+id/chat_list_divider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/chat_list_divider"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        app:srcCompat="@drawable/chat_list_divider_vector"
         app:layout_constraintBottom_toBottomOf="@id/card_element_of_list_of_chats"
         tools:ignore="MissingConstraints" />
 

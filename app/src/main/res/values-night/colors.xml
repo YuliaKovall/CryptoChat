@@ -15,15 +15,15 @@
     <color name="green_lt">#83C241</color>
 
 
-    <color name="universal_white">#FFFFFF</color>
-    <color name="universal_black">#1A1A1A</color>
+    <color name="universal_white">#1A1A1A</color> // dark theme black
+    <color name="universal_black">#FFFFFF</color> // dark theme white
     <color name="light_theme_white_35_opacity">#1AFFFFFF</color>
     <color name="universal_state_success">#74D252</color>
     <color name="universal_state_error">#F22B2B</color>
-    <color name="light_theme_light_background">#D9E3CF</color>
-    <color name="light_theme_dark_background" >#1A1F1E1B</color>
+    <color name="light_theme_light_background">#2A2F24</color> //dark theme light background
+    <color name="light_theme_dark_background" >#401F1E1B</color> //dark theme dark background
     <color name="light_theme_grey_background">#F5F5F5</color>
-    <color name="light_theme_secondary_green">#83C241</color>
+    <color name="light_theme_secondary_green">#1AFFFFFF</color> // dark theme secondary white 10%
     <color name="light_theme_dark_green">#ACC194</color>
     <color name="universal_stroke_grey_0">#000000</color>
     <color name="universal_stroke_grey_40">#666666</color>
@@ -37,9 +37,9 @@
     <color name="universal_text_grey_75">#BFBFBF</color>
     <color name="dark_F24">#2A2F24</color>
     <color name="white_opacity_8">#1AFFFFFF</color>
-    <color name="black_opacity_30">#4D000000</color>
-    <color name="primary_black">#1A1A1A</color>
-    <color name="white_to_green">#FFFFFF</color>
-    <color name="chat_list_divider">#CC000000</color>
+    <color name="black_opacity_30">#4D83C241</color>
+    <color name="primary_black">#83C241</color> //dark theme primary green
+    <color name="white_to_green">#83C241</color>
+    <color name="chat_list_divider">#CCFFFFFF</color>
 
 </resources>

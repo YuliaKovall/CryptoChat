@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:text="@string/chat_list"
         android:textSize="16sp"
-        android:textColor="@color/universal_black"
+        android:textColor="@color/primary_black"
         android:gravity="center"
         android:layout_marginBottom="23dp"
         app:layout_constraintStart_toStartOf="@id/left_button_background"
@@ -124,7 +124,7 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_button_chats"
         app:layout_constraintBottom_toBottomOf="@id/bottom_button_chats"
 
-        app:srcCompat="@drawable/icon_chats" />
+        app:srcCompat="@drawable/icon_chats_active" />
 
     <ImageView
         android:id="@+id/bottom_icon_settings"
@@ -183,16 +183,31 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"/>
 
-        <ImageView
-            android:id="@+id/button_create_first_chat"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/icon_create_first_chat"
-            android:onClick="createNewChat"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/button_create_first_chat"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/send_button_background"
+                android:onClick="createNewChat"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless" />
+            <ImageView
+                android:id="@+id/icon_create_first_chat"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/icon_create_first_chat"
+                android:onClick="createNewChat"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless"
+                />
+        </FrameLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

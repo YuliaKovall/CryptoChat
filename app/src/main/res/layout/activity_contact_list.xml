@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:text="@string/back_to_chat_list"
         android:textSize="16sp"
-        android:textColor="@color/universal_black"
+        android:textColor="@color/primary_black"
         android:gravity="center"
         android:layout_marginBottom="23dp"
         app:layout_constraintStart_toStartOf="@id/left_button_background"
@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:text="@string/setting"
         android:textSize="16sp"
-        android:textColor="@color/universal_text_black_20"
+        android:textColor="@color/primary_black"
         android:gravity="center"
         android:layout_marginBottom="23dp"
         app:layout_constraintStart_toStartOf="@id/right_button_background"
@@ -112,7 +112,7 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_button_chats"
         app:layout_constraintBottom_toBottomOf="@id/bottom_button_chats"
 
-        app:srcCompat="@drawable/icon_chats" />
+        app:srcCompat="@drawable/icon_chats_active" />
 
     <ImageView
         android:id="@+id/bottom_icon_settings"
