@@ -1,5 +1,7 @@
 package com.example.cryptochat.utils;
 
+import java.io.UnsupportedEncodingException;
+
 public class EasyEncryption {
     private final String password;
 
@@ -35,49 +37,70 @@ public class EasyEncryption {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //Here are methods for obtaining the first 64-bit phase from a password.
-    public int[] makeFirstPhase(){
-        String croppedPassword = password.substring(0, 16);
-        return getAllBinaryArrays(croppedPassword);
-    }
 
-    private static int[][] stringToBinaryArrays(String str) {
-        int[][] result = new int[str.length()][8];
-        for (int i = 0; i < str.length(); i++) {
-            char c = str.charAt(i);
-            for (int j = 0; j < 8; j++) {
-                result[i][j] = (c >> (7 - j)) & 1;
+
+
+    public static int[] stringToBinary(String str) {
+        int[] bits = new int[str.length() * 8];
+        byte[] bytes = null;
+        try {
+            bytes = str.getBytes("windows-1251");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        int bitIndex = 0;
+        assert bytes != null;
+        for (byte b : bytes) {
+            // Convert byte to 8-bit binary representation and store each bit in the bits array
+            String binaryByte = Integer.toBinaryString(b & 255 | 256).substring(1);
+            for (int i = 0; i < binaryByte.length(); i++) {
+                bits[bitIndex++] = Character.getNumericValue(binaryByte.charAt(i));
             }
         }
-        return result;
+        return bits;
     }
 
-    private static int[][] getFourLastElements(int[][] binaryArrays) {
-        int[][] result = new int[binaryArrays.length][4];
-        for (int i = 0; i < binaryArrays.length; i++) {
-            int[] binaryArray = binaryArrays[i];
-            int startIndex = binaryArray.length - 4;
-            if (startIndex < 0) {
-                startIndex = 0;
-            }
-            int endIndex = binaryArray.length;
-            for (int j = startIndex, k = 0; j < endIndex && k < 4; j++, k++) {
-                result[i][k] = binaryArray[j];
-            }
+    public static String binaryToString(int[] bits) {
+        if (bits.length % 8 != 0) {
+            throw new IllegalArgumentException("The length of the bit array must be a multiple of 8.");
         }
-        return result;
+
+        byte[] bytes = new byte[bits.length / 8];
+        int byteIndex = 0;
+        int bitIndex = 0;
+
+        while (bitIndex < bits.length) {
+            byte b = 0;
+            for (int i = 0; i < 8; i++) {
+                b <<= 1;
+                b |= bits[bitIndex++];
+            }
+            bytes[byteIndex++] = b;
+        }
+
+        String str = null;
+        try {
+            str = new String(bytes, "windows-1251");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return str;
     }
 
-    private static int[] getAllBinaryArrays(String str) {
-        int[] result = new int[str.length() * 4];
-        int[][] binaryArrays = stringToBinaryArrays(str);
-        int[][] lastFourElements = getFourLastElements(binaryArrays);
-        int index = 0;
-        for (int[] lastFourElement : lastFourElements) {
-            for (int i : lastFourElement) {
-                result[index++] = i;
-            }
+    public static int[] makeFirstPhase(String password) {
+        String croppedPass = password.substring(0, 16);
+        int[] allBits = stringToBinary(croppedPass);
+        int[] bits64 = new int[64];
+        int resultIndex = 0;
+        for (int i = 4; i < allBits.length; i += 8) {
+            bits64[resultIndex++] = allBits[i];
+            bits64[resultIndex++] = allBits[i + 1];
+            bits64[resultIndex++] = allBits[i + 2];
+            bits64[resultIndex++] = allBits[i + 3];
         }
-        return result;
+        return bits64;
     }
 
 }

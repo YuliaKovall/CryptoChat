@@ -102,13 +102,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 uniquePassword = (Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr))).get(0);
                 easyEncryption = new EasyEncryption(Objects.requireNonNull(uniquePassword));
                 messagesAdapter.setKey(uniquePassword);
-                easyEncryption.makeFirstPhase();
             });
             popUpFragment.show();
         }else{
             uniquePassword = (Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr))).get(0);
             easyEncryption = new EasyEncryption(Objects.requireNonNull(uniquePassword));
-            easyEncryption.makeFirstPhase();
         }
 
 
