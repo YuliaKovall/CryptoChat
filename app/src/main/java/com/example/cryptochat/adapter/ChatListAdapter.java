@@ -23,6 +23,11 @@ import java.util.List;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatItemHolder> {
     private List<ChatItem> chatItemList;
+   //////////////////////////
+    public void removeItem(int position) {
+        chatItemList.remove(position);
+        notifyItemRemoved(position);
+    }
 
     public ChatListAdapter() {
     }

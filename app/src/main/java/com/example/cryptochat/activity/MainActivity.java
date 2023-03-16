@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Telephony;
@@ -20,7 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.R;
 import com.example.cryptochat.adapter.ChatListAdapter;
@@ -29,6 +32,8 @@ import com.example.cryptochat.databinding.ActivityMainBinding;
 import com.example.cryptochat.pojo.ChatItem;
 import com.example.cryptochat.pojo.Contact;
 import com.example.cryptochat.pojo.Message;
+import com.example.cryptochat.utils.SwipeToDeleteCallback;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,6 +50,38 @@ public class MainActivity extends AppCompatActivity {
     private IntentFilter intentFilter;
     private LinearLayout emptyChatListNote;
     private ImageView settingsBackButton;
+    private void enableSwipeToDeleteAndUndo() {
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+
+                final int position = viewHolder.getAdapterPosition();
+                final String item = adapter.getData().get(position);
+
+                mAdapter.removeItem(position);
+
+
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Item was removed from the list.", Snackbar.LENGTH_LONG);
+                snackbar.setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        mAdapter.restoreItem(item, position);
+                        recyclerView.scrollToPosition(position);
+                    }
+                });
+
+                snackbar.setActionTextColor(Color.YELLOW);
+                snackbar.show();
+
+            }
+        };
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
