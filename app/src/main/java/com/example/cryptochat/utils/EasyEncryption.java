@@ -35,10 +35,10 @@ public class EasyEncryption {
         invert(chars);// використовуємо вхідний параметр str як вхідний параметр для invert()
         return new String(adding(new String(chars), !(password.length() % 2 == 0)));
     }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //Here are methods for obtaining the first 64-bit phase from a password.
-
-
 
     public static int[] stringToBinary(String str) {
         int[] bits = new int[str.length() * 8];
