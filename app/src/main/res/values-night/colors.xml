@@ -24,7 +24,7 @@
     <color name="light_theme_dark_background" >#401F1E1B</color> //dark theme dark background
     <color name="light_theme_grey_background">#F5F5F5</color>
     <color name="light_theme_secondary_green">#1AFFFFFF</color> // dark theme secondary white 10%
-    <color name="light_theme_dark_green">#ACC194</color>
+    <color name="light_theme_dark_green">#22261E</color>
     <color name="universal_stroke_grey_0">#000000</color>
     <color name="universal_stroke_grey_40">#666666</color>
     <color name="universal_stroke_grey_75">#BFBFBF</color>
