@@ -1,6 +1,7 @@
 package com.example.cryptochat.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.R;
 import com.example.cryptochat.activity.ChatActivity;
+import com.example.cryptochat.controller.FileController;
 import com.example.cryptochat.databinding.ChatItemBinding;
 import com.example.cryptochat.pojo.ChatItem;
 import com.example.cryptochat.utils.CryptoChatConstants;
@@ -23,11 +25,6 @@ import java.util.List;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatItemHolder> {
     private List<ChatItem> chatItemList;
-   //////////////////////////
-    public void removeItem(int position) {
-        chatItemList.remove(position);
-        notifyItemRemoved(position);
-    }
 
     public ChatListAdapter() {
     }
@@ -93,10 +90,15 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatIt
 
     @SuppressLint("NotifyDataSetChanged")
     public void addChatItem(ChatItem chatItem) {
-        if(chatItemList == null){
+        if (chatItemList == null) {
             chatItemList = new ArrayList<>();
         }
         chatItemList.add(chatItem);
         notifyDataSetChanged();
+    }
+
+    public void removeItem(Context context, int position) {
+        FileController.removeContactKeyMap(context, chatItemList.remove(position).getContactNumber());
+        notifyItemRemoved(position);
     }
 }

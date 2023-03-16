@@ -44,44 +44,10 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
-    private ChatListAdapter adapter = new ChatListAdapter();
+    private ChatListAdapter adapter;
     private List<ChatItem> chatItemList;
     private BroadcastReceiver intentReceiver;
     private IntentFilter intentFilter;
-    private LinearLayout emptyChatListNote;
-    private ImageView settingsBackButton;
-    private void enableSwipeToDeleteAndUndo() {
-        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this) {
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
-
-                final int position = viewHolder.getAdapterPosition();
-                final String item = adapter.getData().get(position);
-
-                mAdapter.removeItem(position);
-
-
-                Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, "Item was removed from the list.", Snackbar.LENGTH_LONG);
-                snackbar.setAction("UNDO", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        mAdapter.restoreItem(item, position);
-                        recyclerView.scrollToPosition(position);
-                    }
-                });
-
-                snackbar.setActionTextColor(Color.YELLOW);
-                snackbar.show();
-
-            }
-        };
-
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
-        itemTouchhelper.attachToRecyclerView(recyclerView);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,13 +58,27 @@ public class MainActivity extends AppCompatActivity {
         init();
         printChatItems();
 
-        settingsBackButton = findViewById(R.id.right_button_background);
+        ImageView settingsBackButton = findViewById(R.id.right_button_background);
         settingsBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToSettings();
             }
         });
+        enableSwipeToDelete();
+    }
+
+    private void enableSwipeToDelete() {
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                int position = viewHolder.getAdapterPosition();
+                adapter.removeItem(MainActivity.this, position);
+            }
+        };
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
+        itemTouchhelper.attachToRecyclerView(binding.recyclerView);
     }
 
     public void createNewChat(View view) {
@@ -113,10 +93,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new ChatListAdapter();
         binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         chatItemList = formChatItemList();
-        emptyChatListNote= findViewById(R.id.welcome_screen_main_text);
+        LinearLayout emptyChatListNote = findViewById(R.id.welcome_screen_main_text);
         if (formChatItemList().size() > 0) {
             emptyChatListNote.setVisibility(View.GONE);
         }

@@ -1,5 +1,8 @@
 package com.example.cryptochat.controller;
 
+import static com.example.cryptochat.utils.CryptoChatConstants.CHAT_ITEM_FILE_NAME;
+import static com.example.cryptochat.utils.CryptoChatConstants.CONTACT_KEY_FILE_NAME;
+
 import android.content.Context;
 import android.widget.Toast;
 
@@ -40,52 +43,54 @@ public class FileController {
         catch (Throwable t) { }
     }
 
+    private static boolean deleteFile(Context context, String fileName) {
+        return context.deleteFile(fileName);
+    }
+
+    public static void deleteAllChats(Context context){
+        deleteFile(context,CONTACT_KEY_FILE_NAME);
+    }
 
     public static void addAndEditContactKeyMap (Context context, String key, String pin,
                                                 String nameContact, String creatingDate){
         Map<String, List<String>> m = new HashMap<>();
-        String fileName = "contactkeymap";
         List<String> l = new ArrayList<>();
         l.add(pin);
         l.add(nameContact);
         l.add(creatingDate);
-        if (openFile(context, fileName) != null) {
-            m = (HashMap<String, List<String>>) openFile(context, fileName);
+        if (openFile(context, CONTACT_KEY_FILE_NAME) != null) {
+            m = (HashMap<String, List<String>>) openFile(context, CONTACT_KEY_FILE_NAME);
         }
         m.put(key, l);
-        saveFile(context, fileName, m);
+        saveFile(context, CONTACT_KEY_FILE_NAME, m);
     }
 
 
     public static Map<String, List<String>> openContactKeyMap (Context context){
         Map<String, List<String>> m = new HashMap<>();
-        String fileName = "contactkeymap";
-        if (openFile(context, fileName) != null) {
-            m = (HashMap<String, List<String>>) openFile(context, fileName);
+        if (openFile(context, CONTACT_KEY_FILE_NAME) != null) {
+            m = (HashMap<String, List<String>>) openFile(context, CONTACT_KEY_FILE_NAME);
         }
         return m;
     }
 
     public static void removeContactKeyMap (Context context, String key){
         Map<String, String> m = new HashMap<>();
-        String fileName = "contactkeymap";
-        if (openFile(context, fileName) != null) {
-            m = (HashMap<String, String>) openFile(context, fileName);
+        if (openFile(context, CONTACT_KEY_FILE_NAME) != null) {
+            m = (HashMap<String, String>) openFile(context, CONTACT_KEY_FILE_NAME);
             m.remove(key);
         }
-        saveFile(context, fileName, m);
+        saveFile(context, CONTACT_KEY_FILE_NAME, m);
     }
 
     public static void editChatItem (Context context, Map<Integer, ChatItem> chatItemMap) {
-        String fileName = "chatitemmap";
-        saveFile(context, fileName, chatItemMap);
+        saveFile(context, CHAT_ITEM_FILE_NAME, chatItemMap);
     }
 
     public static Map<Integer, ChatItem> openChatItem (Context context){
         Map<Integer, ChatItem> m = new HashMap<>();
-        String fileName = "chatitemmap";
-        if (openFile(context, fileName) != null) {
-            m = (HashMap<Integer, ChatItem>) openFile(context, fileName);
+        if (openFile(context, CHAT_ITEM_FILE_NAME) != null) {
+            m = (HashMap<Integer, ChatItem>) openFile(context, CHAT_ITEM_FILE_NAME);
         }
         return m;
     }
