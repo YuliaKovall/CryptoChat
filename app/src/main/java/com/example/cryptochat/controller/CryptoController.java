@@ -24,7 +24,7 @@ public class CryptoController {
         String key = finalCryptoCode(formSequenceCode(password));
         int[] text = stringToBinary(textMessages);
         int[] result = new int[text.length];
-        String keyChar = "";
+        String keyChar;
         for (int i = 0; i < text.length; i++) {
             int charCode = text[i];
             keyChar = key.substring(i, i + 1);
