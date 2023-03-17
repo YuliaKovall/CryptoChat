@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.cryptochat.R;
+import com.example.cryptochat.controller.FileController;
 
 public class SettingsActivity extends AppCompatActivity {
     private ImageView chatListBackButton;
@@ -48,6 +49,11 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void goToChatsList() {
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+    public void deleteAllChats(View view){
+        FileController.deleteAllChats(view.getContext());
+        Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
         startActivity(intent);
     }
 }

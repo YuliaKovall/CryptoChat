@@ -27,6 +27,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     SimpleDateFormat todayFormat = new SimpleDateFormat("HH:mm");
     SimpleDateFormat weekFormat = new SimpleDateFormat("E HH:mm");
     SimpleDateFormat yearFormat = new SimpleDateFormat("dd.MM.yyyy");
+    private final EasyEncryption easyEncryption =new EasyEncryption(key);
 
     public MessagesAdapter(Context context, List<Message> messagesList, String key) {
         this.context = context;
@@ -64,7 +65,6 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = messagesList.get(position);
-        EasyEncryption easyEncryption =new EasyEncryption(key);
         if(holder.getClass()==SenderViewHolder.class) {
             SenderViewHolder viewHolder=(SenderViewHolder)holder;
             viewHolder.textViewMessaage.setText(message.getMessage());
@@ -135,6 +135,6 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     }
 
     public void setKey(String key) {
-        this.key = key;
+        easyEncryption.setPassword(key);
     }
 }

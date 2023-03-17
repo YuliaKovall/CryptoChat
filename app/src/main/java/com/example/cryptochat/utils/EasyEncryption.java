@@ -5,7 +5,7 @@ import com.example.cryptochat.controller.CryptoController;
 import java.io.UnsupportedEncodingException;
 
 public class EasyEncryption {
-    private final String password;
+    private String password;
 
     public EasyEncryption(String password) {
         this.password = password;
@@ -40,5 +40,9 @@ public class EasyEncryption {
 
     public String encrypt(String message){
         return CryptoController.encrypt(message, password);
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

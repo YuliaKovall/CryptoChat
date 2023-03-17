@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Telephony;
@@ -20,7 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cryptochat.R;
 import com.example.cryptochat.adapter.ChatListAdapter;
@@ -29,6 +32,8 @@ import com.example.cryptochat.databinding.ActivityMainBinding;
 import com.example.cryptochat.pojo.ChatItem;
 import com.example.cryptochat.pojo.Contact;
 import com.example.cryptochat.pojo.Message;
+import com.example.cryptochat.utils.SwipeToDeleteCallback;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,12 +44,10 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
-    private ChatListAdapter adapter = new ChatListAdapter();
+    private ChatListAdapter adapter;
     private List<ChatItem> chatItemList;
     private BroadcastReceiver intentReceiver;
     private IntentFilter intentFilter;
-    private LinearLayout emptyChatListNote;
-    private ImageView settingsBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +58,27 @@ public class MainActivity extends AppCompatActivity {
         init();
         printChatItems();
 
-        settingsBackButton = findViewById(R.id.right_button_background);
+        ImageView settingsBackButton = findViewById(R.id.right_button_background);
         settingsBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToSettings();
             }
         });
+        enableSwipeToDelete();
+    }
+
+    private void enableSwipeToDelete() {
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                int position = viewHolder.getAdapterPosition();
+                adapter.removeItem(MainActivity.this, position);
+            }
+        };
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
+        itemTouchhelper.attachToRecyclerView(binding.recyclerView);
     }
 
     public void createNewChat(View view) {
@@ -76,10 +93,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new ChatListAdapter();
         binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         chatItemList = formChatItemList();
-        emptyChatListNote= findViewById(R.id.welcome_screen_main_text);
+        LinearLayout emptyChatListNote = findViewById(R.id.welcome_screen_main_text);
         if (formChatItemList().size() > 0) {
             emptyChatListNote.setVisibility(View.GONE);
         }
