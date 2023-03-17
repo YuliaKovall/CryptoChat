@@ -64,6 +64,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        easyEncryption.setPassword(key);
         Message message = messagesList.get(position);
         if(holder.getClass()==SenderViewHolder.class) {
             SenderViewHolder viewHolder=(SenderViewHolder)holder;
@@ -135,6 +136,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     }
 
     public void setKey(String key) {
+        this.key = key;
         easyEncryption.setPassword(key);
     }
 }
