@@ -39,7 +39,7 @@ public class EasyEncryption {
     }
 
     public String encrypt(String message){
-        return CryptoController.encrypt(message, password);
+        return CryptoController.cryptoHard(message, password);
     }
 
     public void setPassword(String password) {

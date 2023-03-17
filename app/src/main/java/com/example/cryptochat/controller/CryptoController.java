@@ -273,7 +273,7 @@ public class CryptoController {
         Random random = new Random();
         StringBuilder sb = new StringBuilder(16);
         for (int i = 0; i < 16; i++) {
-            char c = (char) (random.nextInt(Character.MAX_VALUE + 1));
+            char c = (char) (random.nextInt(100));
             sb.append(c);
         }
         return sb.toString();
