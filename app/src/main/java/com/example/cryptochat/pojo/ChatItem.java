@@ -72,5 +72,16 @@ public class ChatItem implements Serializable {
     public void setContact(Contact contact) {
         this.contact = contact;
     }
+
+    @Override
+    public String toString() {
+        return "ChatItem{" +
+                "contact=" + contact +
+                ", password='" + password + '\'' +
+                ", message='" + message + '\'' +
+                ", time=" + time +
+                ", numberUnreadMessages=" + numberUnreadMessages +
+                '}';
+    }
 }
 

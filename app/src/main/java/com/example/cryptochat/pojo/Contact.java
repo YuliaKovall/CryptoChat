@@ -64,4 +64,13 @@ public class Contact implements Serializable {
    public int hashCode() {
       return Objects.hash(id, name, number);
    }
+
+   @Override
+   public String toString() {
+      return "Contact{" +
+              "id='" + id + '\'' +
+              ", name='" + name + '\'' +
+              ", number='" + number + '\'' +
+              '}';
+   }
 }
