@@ -4,14 +4,15 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class CryptoController {
 
     // Const values
-    private static final List<Integer> swapingKey = Arrays.asList(1,0,0,0,0,0,1,0,0,0,1,0,1,0,1,1);
-    private static final List<Integer> swapingPhase = Arrays.asList(1,1,0,1,1,1,0,1,0,0,1,1,1,1,0,1);
-    private static final List<Integer> invertingKey = Arrays.asList(1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1);
-    private static final List<Integer> invertingPhase = Arrays.asList(1,1,1,1,0,1,0,1,0,1,1,0,1,0,0,1);
+    private static final List<Integer> swapingKey = Arrays.asList(1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1);
+    private static final List<Integer> swapingPhase = Arrays.asList(1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1);
+    private static final List<Integer> invertingKey = Arrays.asList(1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1);
+    private static final List<Integer> invertingPhase = Arrays.asList(1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1);
     // Const binary sequences(write to file if needed)
     private static final String swapingSeq = stringArrayToString(formBinarySequenceCode(swapingKey,
             swapingPhase, 16, 2, 624));
@@ -37,7 +38,7 @@ public class CryptoController {
     }
 
     ///////////// VOVA TRUBIN///////////////
-    public static String finalCryptoCode (List<String[]> sequenceCode) {
+    public static String finalCryptoCode(List<String[]> sequenceCode) {
         StringBuffer result = new StringBuffer();
         StringBuffer temp = new StringBuffer();
         int finalSequenceLength = swapingSeq.length();
@@ -61,7 +62,7 @@ public class CryptoController {
         return result.toString();
     }
 
-    private static void invertBits (StringBuffer bits) {
+    private static void invertBits(StringBuffer bits) {
         int bitsLength = bits.length(); // = 8
         for (int i = 0; i < bitsLength; i++) {
             char c = bits.charAt(i);
@@ -74,7 +75,7 @@ public class CryptoController {
     }
 
 
-    public static String [] formBinarySequenceCode(List<Integer> key, List<Integer> phase, int power, int base, int codeLength) {
+    public static String[] formBinarySequenceCode(List<Integer> key, List<Integer> phase, int power, int base, int codeLength) {
         String[] sequenceCode = new String[codeLength];
         for (int i = 0; i < power; i++) {
             sequenceCode[i] = String.valueOf(phase.get(i));
@@ -134,14 +135,14 @@ public class CryptoController {
         return nextFragment;
     }
 
-    private static List<Integer[]> makeTwoPhase (int[] firstPhase){
+    private static List<Integer[]> makeTwoPhase(int[] firstPhase) {
         List<Integer[]> l = new ArrayList<>();
         Integer[] phaseWithBaseFive = new Integer[4];
         Integer[] phaseWithBaseNineteen = new Integer[3];
         int[] arrayNum3 = new int[3];
         int[] arrayNum5 = new int[5];
-        int c1=0, c2=0, p1=0, p2=0;
-        for (int i = 0; i < 27; i++){
+        int c1 = 0, c2 = 0, p1 = 0, p2 = 0;
+        for (int i = 0; i < 27; i++) {
             if (i < 12) {
                 arrayNum3[p1++] = firstPhase[i];
                 if (p1 == 3) {
@@ -154,7 +155,7 @@ public class CryptoController {
             }
             if (i > 11) {
                 arrayNum5[p2++] = firstPhase[i];
-                if (p2 == 5){
+                if (p2 == 5) {
                     if (binaryArrayToDecimal(arrayNum5) > 18) {
                         bitwiseInvert(arrayNum5);
                     }
@@ -188,6 +189,7 @@ public class CryptoController {
             arr[i] = arr[i] ^ 1;
         }
     }
+
     private static int binaryArrayToDecimal(int[] binaryArray) {
         int decimal = 0;
         int power = 0;
@@ -263,5 +265,61 @@ public class CryptoController {
             bits64[resultIndex++] = allBits[i + 3];
         }
         return bits64;
+    }
+
+    ///////////// HARD ENCRYPT //////////////
+
+    public static String generateRandomString() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(16);
+        for (int i = 0; i < 16; i++) {
+            char c = (char) (random.nextInt(Character.MAX_VALUE + 1));
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+
+    public static String formNewPassword(String password, String generatedPassword) {
+        int[] passwordInt = stringToBinary(password);
+        int[] generatedPasswordInt = stringToBinary(generatedPassword);
+        int[] result = new int[passwordInt.length];
+        for (int i = 0; i < passwordInt.length; i++) {
+            int passwordIntCode = passwordInt[i];
+            int generatedPasswordIntCode = generatedPasswordInt[i];
+            int encryptedChar = passwordIntCode ^ generatedPasswordIntCode;
+            int encryptedCharCode = Integer.parseInt(Integer.toBinaryString(encryptedChar), 2);
+            result[i] = encryptedCharCode;
+        }
+        return binaryToString(result);
+    }
+
+    public static String encryptHard(String textMessages, String password) {
+        String randomString = generateRandomString();
+        String newPassword = formNewPassword(password, randomString);
+        StringBuilder encryptMessageHard = new StringBuilder();
+        String encryptMessage = encrypt(textMessages, newPassword);
+        encryptMessageHard.append(randomString);
+        encryptMessageHard.append(encryptMessage);
+        encryptMessageHard.append("   ");
+        return encryptMessageHard.toString();
+    }
+
+    public static List<String> extractMessageAndPassword(String hardEncryptedText) {
+        List<String> result = new ArrayList<>();
+        result.add(hardEncryptedText.substring(0, 16));
+        result.add(hardEncryptedText.substring(16, hardEncryptedText.length() - 3));
+        return result;
+    }
+
+    public static String uncryptHard(String textMessage, String password) {
+        return encrypt(extractMessageAndPassword(textMessage).get(1), formNewPassword(password, extractMessageAndPassword(textMessage).get(0)));
+    }
+
+    public static String cryptoHard(String textMessage, String password) {
+        if (textMessage.endsWith("   ")) {
+            return uncryptHard(textMessage, password);
+        } else {
+            return encryptHard(textMessage, password);
+        }
     }
 }
