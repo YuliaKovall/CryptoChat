@@ -27,12 +27,13 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     SimpleDateFormat todayFormat = new SimpleDateFormat("HH:mm");
     SimpleDateFormat weekFormat = new SimpleDateFormat("E HH:mm");
     SimpleDateFormat yearFormat = new SimpleDateFormat("dd.MM.yyyy");
-    private final EasyEncryption easyEncryption =new EasyEncryption(key);
+    private final EasyEncryption easyEncryption;
 
     public MessagesAdapter(Context context, List<Message> messagesList, String key) {
         this.context = context;
         this.messagesList = messagesList;
         this.key = key;
+        this.easyEncryption = new EasyEncryption(key);
     }
 
     @NonNull
@@ -135,6 +136,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     }
 
     public void setKey(String key) {
+        this.key = key;
         easyEncryption.setPassword(key);
     }
 }
