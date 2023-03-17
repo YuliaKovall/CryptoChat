@@ -73,7 +73,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     // Sending message click handling
-                     message.setMessage(easyEncryption.uncrypt(message.getMessage()));
+                     message.setMessage(easyEncryption.encrypt(message.getMessage()));
                      notifyDataSetChanged();
                 }
             });
