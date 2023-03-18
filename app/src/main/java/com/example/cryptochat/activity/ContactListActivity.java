@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.cryptochat.R;
 import com.example.cryptochat.adapter.ContactListAdapter;
 import com.example.cryptochat.databinding.ActivityContactListBinding;
 import com.example.cryptochat.pojo.Contact;
@@ -41,6 +43,14 @@ public class ContactListActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         init();
         printContactList();
+
+        ImageView settingsBackButton = findViewById(R.id.right_button_background);
+        settingsBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSettings();
+            }
+        });
     }
 
     public void chatMassage(View view) {
@@ -118,5 +128,9 @@ public class ContactListActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Please provide permissions", Toast.LENGTH_LONG).show();
         }
+    }
+    public void goToSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 }
