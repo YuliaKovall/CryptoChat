@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="Receiver massage will be here"
             android:textSize="18sp"
-            android:textColor="@color/black"
+            android:textColor="@color/universal_black"
             android:paddingStart="13dp"
             android:paddingBottom="21dp"
             android:paddingTop="13dp"

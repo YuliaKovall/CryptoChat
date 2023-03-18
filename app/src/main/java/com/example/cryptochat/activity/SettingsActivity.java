@@ -32,13 +32,30 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         switchThemes = findViewById(R.id.switch_theme);
+
+        sharedPreferences = getSharedPreferences("color_theme", 0);
+        Boolean booleanValue = sharedPreferences.getBoolean("night_mode",true);
+
+        if (booleanValue){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            switchThemes.setChecked(true);
+        }
+
         switchThemes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!switchThemes.isChecked()) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    switchThemes.setChecked(false);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("night_mode",false);
+                    editor.commit();
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    switchThemes.setChecked(true);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("night_mode",true);
+                    editor.commit();
                 }
             }
         });
