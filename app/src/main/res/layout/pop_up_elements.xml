@@ -49,7 +49,7 @@
         android:paddingEnd="40dp"
         android:textColor="@color/universal_black"
         android:shadowColor="@color/universal_black"
-        android:textColorHint="#BFBFBF"
+        android:textColorHint="@color/universal_stroke_grey_75"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

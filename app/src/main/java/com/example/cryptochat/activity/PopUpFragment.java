@@ -118,9 +118,7 @@ public class PopUpFragment extends Dialog {
         caret = findViewById(R.id.caret);
 
         myRedColor = mContext.getResources().getColor(R.color.universal_state_error);
-        int myBlackColor = mContext.getResources().getColor(R.color.black);
         myGrey75 = mContext.getResources().getColor(R.color.universal_text_grey_75);
-        editText.setTextColor(myBlackColor);
         editText.setBackgroundResource(R.drawable.pop_up_edit_text);
         textViewUnderEditText = findViewById(R.id.textView4);
 
