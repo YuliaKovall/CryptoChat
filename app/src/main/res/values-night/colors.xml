@@ -24,6 +24,7 @@
     <color name="light_theme_dark_background" >#401F1E1B</color> //dark theme dark background
     <color name="light_theme_grey_background">#F5F5F5</color>
     <color name="light_theme_secondary_green">#1AFFFFFF</color> // dark theme secondary white 10%
+    <color name="light_theme_secondary_green1">#6683C241</color>
     <color name="light_theme_dark_green">#22261E</color>
     <color name="universal_stroke_grey_0">#000000</color>
     <color name="universal_stroke_grey_40">#666666</color>
@@ -41,5 +42,6 @@
     <color name="primary_black">#83C241</color> //dark theme primary green
     <color name="white_to_green">#83C241</color>
     <color name="chat_list_divider">#CCFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
 
 </resources>
