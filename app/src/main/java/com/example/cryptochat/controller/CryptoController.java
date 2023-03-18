@@ -22,14 +22,12 @@ public class CryptoController {
 
     ////////// IVAN STEPANCHENKO //////////
     public static String encrypt(String textMessages, String password) {
-        String key = finalCryptoCode(formSequenceCode(password));
+        int[] key = convertBinaryStringToIntArray(finalCryptoCode(formSequenceCode(password)));
         int[] text = stringToBinary(textMessages);
         int[] result = new int[text.length];
-        String keyChar;
         for (int i = 0; i < text.length; i++) {
             int charCode = text[i];
-            keyChar = key.substring(i, i + 1);
-            int keyInt = Integer.parseInt(keyChar);
+            int keyInt = key[i % key.length];
             int encryptedChar = charCode ^ keyInt;
             int encryptedCharCode = Integer.parseInt(Integer.toBinaryString(encryptedChar), 2);
             result[i] = encryptedCharCode;
@@ -202,6 +200,15 @@ public class CryptoController {
         return decimal;
     }
 
+    public static int[] convertBinaryStringToIntArray(String binaryString) {
+        int[] result = new int[binaryString.length()];
+        for (int i = 0; i < binaryString.length(); i++) {
+            result[i] = Character.getNumericValue(binaryString.charAt(i));
+        }
+        return result;
+    }
+
+
 
     ////////// VLAD RADKO //////////
     public static int[] stringToBinary(String str) {
@@ -282,8 +289,8 @@ public class CryptoController {
     public static String formNewPassword(String password, String generatedPassword) {
         int[] passwordInt = stringToBinary(password);
         int[] generatedPasswordInt = stringToBinary(generatedPassword);
-        int[] result = new int[passwordInt.length];
-        for (int i = 0; i < passwordInt.length; i++) {
+        int[] result = new int[generatedPasswordInt.length];
+        for (int i = 0; i < generatedPasswordInt.length; i++) {
             int passwordIntCode = passwordInt[i];
             int generatedPasswordIntCode = generatedPasswordInt[i];
             int encryptedChar = passwordIntCode ^ generatedPasswordIntCode;
