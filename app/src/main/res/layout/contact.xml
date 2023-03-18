@@ -36,6 +36,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
+    <ImageView
+        android:id="@+id/chat_list_divider"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        app:srcCompat="@drawable/chat_list_divider_vector"
+        app:layout_constraintTop_toBottomOf="@id/contact_data"
+        tools:ignore="MissingConstraints" />
+
 
 
 

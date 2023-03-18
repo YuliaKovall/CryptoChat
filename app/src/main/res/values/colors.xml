@@ -42,5 +42,6 @@
     <color name="primary_black">#1A1A1A</color>
     <color name="white_to_green">#FFFFFF</color>
     <color name="chat_list_divider">#CC000000</color>
+    <color name="transparent">#00FFFFFF</color>
 
 </resources>
