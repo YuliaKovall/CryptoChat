@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/contact_data"
-    android:background="@color/light_theme_light_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
@@ -16,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/roboto_bold"
         android:padding="3dp"
         android:text="@string/contact_name"
@@ -41,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="4dp"
         app:srcCompat="@drawable/chat_list_divider_vector"
-        app:layout_constraintTop_toBottomOf="@id/contact_data"
+        app:layout_constraintTop_toBottomOf="@id/contactNumber"
         tools:ignore="MissingConstraints" />
 
 

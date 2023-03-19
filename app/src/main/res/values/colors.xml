@@ -18,7 +18,7 @@
 
     <color name="universal_white">#FFFFFF</color>
     <color name="universal_black">#1A1A1A</color>
-    <color name="light_theme_white_35_opacity">#1AFFFFFF</color>
+    <color name="light_theme_white_35_opacity">#59FFFFFF</color>
     <color name="universal_state_success">#74D252</color>
     <color name="universal_state_error">#F22B2B</color>
     <color name="light_theme_light_background">#D9E3CF</color>
