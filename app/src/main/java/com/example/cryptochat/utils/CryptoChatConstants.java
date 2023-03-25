@@ -9,5 +9,7 @@ public interface CryptoChatConstants {
     String CONTACT_KEY_FILE_NAME = "contactkeymap";
     String CHAT_ITEM_FILE_NAME = "chatitemmap";
 
+    String SETTING = "setting";
+
 
 }

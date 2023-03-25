@@ -1,5 +1,6 @@
 package com.example.cryptochat.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.cryptochat.R;
 import com.example.cryptochat.controller.FileController;
+
+import java.io.FileNotFoundException;
 
 public class SettingsActivity extends AppCompatActivity {
     private ImageView chatListBackButton;
@@ -33,7 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         switchThemes = findViewById(R.id.switch_theme);
 
-        sharedPreferences = getSharedPreferences("color_theme", 0);
+        sharedPreferences = getSharedPreferences("color_theme", 0);;
         Boolean booleanValue = sharedPreferences.getBoolean("night_mode",true);
 
         if (booleanValue){
@@ -49,13 +52,13 @@ public class SettingsActivity extends AppCompatActivity {
                     switchThemes.setChecked(false);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("night_mode",false);
-                    editor.commit();
+                    editor.apply();
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     switchThemes.setChecked(true);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("night_mode",true);
-                    editor.commit();
+                    editor.apply();
                 }
             }
         });

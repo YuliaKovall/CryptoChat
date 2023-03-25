@@ -2,6 +2,7 @@ package com.example.cryptochat.controller;
 
 import static com.example.cryptochat.utils.CryptoChatConstants.CHAT_ITEM_FILE_NAME;
 import static com.example.cryptochat.utils.CryptoChatConstants.CONTACT_KEY_FILE_NAME;
+import static com.example.cryptochat.utils.CryptoChatConstants.SETTING;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -93,6 +94,27 @@ public class FileController {
             m = (HashMap<Integer, ChatItem>) openFile(context, CHAT_ITEM_FILE_NAME);
         }
         return m;
+    }
+    
+    public static void settingFileSave(Context context, String setting, String value){
+        Map<String, String> s = new HashMap<>();
+        if (openFile(context, SETTING) != null){
+            s = (HashMap<String, String>) openFile(context, SETTING);
+        }
+        s.put(setting, value);
+        saveFile(context, SETTING, s);
+    }
+    
+    public static String settingFileOpen(Context context, String setting){
+        String value = "0";
+        try {
+            if (openFile(context, SETTING) != null) {
+                value = ((HashMap<String, String>) openFile(context, SETTING)).get(setting);
+            }
+        } catch (Exception e){
+            return value;
+        }
+        return value;
     }
 
 }
