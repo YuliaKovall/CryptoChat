@@ -9,8 +9,14 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,8 +30,10 @@ import com.example.cryptochat.adapter.ContactListAdapter;
 import com.example.cryptochat.databinding.ActivityContactListBinding;
 import com.example.cryptochat.pojo.Contact;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -33,8 +41,8 @@ public class ContactListActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_READ_CONTACTS = 1;
     private static boolean READ_CONTACTS_GRANTED = false;
     private ActivityContactListBinding binding;
-    private ContactListAdapter adapter = new ContactListAdapter();
-    private Map<String, Contact> contactMap = new HashMap<>();
+    private final ContactListAdapter adapter = new ContactListAdapter();
+    private EditText searchEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +50,6 @@ public class ContactListActivity extends AppCompatActivity {
         binding = ActivityContactListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         init();
-        printContactList();
 
         ImageView settingsBackButton = findViewById(R.id.right_button_background);
         settingsBackButton.setOnClickListener(new View.OnClickListener() {
@@ -51,19 +58,26 @@ public class ContactListActivity extends AppCompatActivity {
                 goToSettings();
             }
         });
+        searchEditText = findViewById(R.id.searchView);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                adapter.filterContacts(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
     }
 
     public void chatMassage(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
-    private void printContactList() {
-        for (Map.Entry<String, Contact> entry : contactMap.entrySet()) {
-            adapter.printContact(entry.getValue());
-        }
-    }
-
+    @SuppressLint("Range")
     private void init() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         binding.recyclerView.setAdapter(adapter);
@@ -71,45 +85,26 @@ public class ContactListActivity extends AppCompatActivity {
         if (hasReadContactPermission == PackageManager.PERMISSION_GRANTED) {
             READ_CONTACTS_GRANTED = true;
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS}, REQUEST_CODE_READ_CONTACTS);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_READ_CONTACTS);
         }
         if (READ_CONTACTS_GRANTED) {
-            contactMap = getContactMap(getApplicationContext());
-        }
-    }
-
-    @SuppressLint("Range")
-    private Map<String, Contact> getContactMap(Context context) {
-        Map<String, Contact> map = new TreeMap<>();
-        Comparator<Contact> contactNameComparator = (o1, o2) -> o1.getName().compareTo(o2.getName());
-        Comparator<String> contactComparator = (o1, o2) -> {
-            Contact c1 = map.get(o1);
-            Contact c2 = map.get(o2);
-            return contactNameComparator.compare(c1, c2);
-        };
-        Map<String, Contact> sortedContact = new TreeMap<>(contactComparator);
-        ContentResolver cr = context.getContentResolver();
-        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-        if (cur != null && cur.getCount() > 0) {
-            while (cur.moveToNext()) {
-                String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                if (cur.getInt(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-                    Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
-                    while (pCur.moveToNext()) {
-                        String phoneNo = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        map.put(phoneNo, new Contact(id, name, phoneNo));
-                    }
-                    pCur.close();
+            Cursor cursor = getContentResolver().query(
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    null,
+                    null,
+                    null,
+                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
+            );
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                    String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    adapter.printContact(new Contact(id, name, phoneNumber));
                 }
+                cursor.close();
             }
         }
-        if (cur != null) {
-            cur.close();
-        }
-        sortedContact.putAll(map);
-        return sortedContact;
     }
 
     @Override
@@ -123,12 +118,11 @@ public class ContactListActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
-        if (READ_CONTACTS_GRANTED) {
-            contactMap = getContactMap(getApplicationContext());
-        } else {
+        if (!READ_CONTACTS_GRANTED) {
             Toast.makeText(this, "Please provide permissions", Toast.LENGTH_LONG).show();
         }
     }
+
     public void goToSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);

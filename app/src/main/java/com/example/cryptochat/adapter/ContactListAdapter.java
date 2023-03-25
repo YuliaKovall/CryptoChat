@@ -2,6 +2,7 @@ package com.example.cryptochat.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,13 @@ import java.util.List;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ContactHolder> {
     private List<Contact> contactList;
+    private List<Contact> originalcontactList;
 
     public ContactListAdapter() {
     }
 
     public class ContactHolder extends RecyclerView.ViewHolder {
-        private @NonNull ContactBinding binding;
+        private final @NonNull ContactBinding binding;
 
         public ContactHolder(View view) {
             super(view);
@@ -69,8 +71,24 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     public void printContact(Contact contact) {
         if (contactList == null) {
             contactList = new ArrayList<>();
+            originalcontactList = new ArrayList<>();
         }
         contactList.add(contact);
+        originalcontactList.add(contact);
+        notifyDataSetChanged();
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    public void filterContacts(String query) {
+        contactList.clear();
+        if (query.isEmpty()) {
+            contactList.addAll(originalcontactList);
+        } else {
+            for (Contact contact : originalcontactList) {
+                if (contact.getName().toLowerCase().contains(query.toLowerCase())) {
+                    contactList.add(contact);
+                }
+            }
+        }
         notifyDataSetChanged();
     }
 }

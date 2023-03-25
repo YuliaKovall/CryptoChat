@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">CryptoChat</string>
     <string name="chat_list_is_empty_head">Чати відсутні</string>
     <string name="chat_list_is_empty_body">Ви можете додати чати, натиснувши на кнопку у правому верхньому куті або на кнопку нижче</string>
@@ -28,5 +28,6 @@
     <string name="light_theme_on_off">Світлий режим</string>
     <string name="auto_deleting_of_chats">Автовидалення повідомлень</string>
     <string name="delete_all_chats">Видалити всі чати</string>
+    <string name="search_contact">Почніть вводити ім`я контакту</string>
 
 </resources>
