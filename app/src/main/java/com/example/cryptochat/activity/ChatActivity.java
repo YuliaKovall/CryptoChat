@@ -97,12 +97,21 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         //Calling PopUp
         if (!FileController.openContactKeyMap(this).containsKey(contactNumberStr)) {
-            PopUpFragment popUpFragment = new PopUpFragment(this, contactNumberStr, contactNameStr, true, null);
+            DialogInterface.OnCancelListener popUpCancelListener = new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    finish();
+                }
+            };
+            PopUpFragment popUpFragment = new PopUpFragment(this, contactNumberStr, contactNameStr, true, popUpCancelListener);
             popUpFragment.setOnDismissListener(dialogInterface -> {
-                uniquePassword = (Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr))).get(0);
-                easyEncryption = new EasyEncryption(Objects.requireNonNull(uniquePassword));
-                messagesAdapter.setKey(uniquePassword);
+                if(FileController.openContactKeyMap(getBaseContext()).containsKey(contactNumberStr)) {
+                    uniquePassword = (Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr))).get(0);
+                    easyEncryption = new EasyEncryption(Objects.requireNonNull(uniquePassword));
+                    messagesAdapter.setKey(uniquePassword);
+                }
             });
+            popUpFragment.setCanceledOnTouchOutside(false);
             popUpFragment.show();
         }else{
             uniquePassword = (Objects.requireNonNull(FileController.openContactKeyMap(getBaseContext()).get(contactNumberStr))).get(0);
