@@ -28,7 +28,8 @@
             android:paddingBottom="21dp"
             android:paddingTop="13dp"
             android:paddingEnd="13dp"
-            android:id="@+id/sendermessage"/>
+            android:id="@+id/sendermessage"
+            android:minWidth="100dp"/>
 
 
         <TextView
