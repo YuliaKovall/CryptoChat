@@ -1,6 +1,5 @@
 package com.example.cryptochat.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,8 +13,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.cryptochat.R;
 import com.example.cryptochat.controller.FileController;
-
-import java.io.FileNotFoundException;
 
 public class SettingsActivity extends AppCompatActivity {
     private ImageView chatListBackButton;

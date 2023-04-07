@@ -50,7 +50,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatIt
         public void bind(ChatItem chatItem) {
             binding.name.setText(chatItem.getContactName());
             binding.message.setText(chatItem.getMessage());
+            binding.count.setVisibility(chatItem.getNumberUnreadMessages() == 0 ? View.GONE : View.VISIBLE);
+            binding.backgroundForMsgsCounter.setVisibility(chatItem.getNumberUnreadMessages() == 0 ? View.GONE : View.VISIBLE);
             binding.count.setText(String.valueOf(chatItem.getNumberUnreadMessages()));
+            binding.time.setVisibility(chatItem.getTime().before(new Date(1)) ? View.GONE : View.VISIBLE);
             binding.time.setText(String.valueOf(formatTimeDate(chatItem.getTime())));
         }
     }
@@ -60,7 +63,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatIt
         Date now = new Date();
         if (now.getTime() - d.getTime() < 86400000 && now.getDay() == d.getDay()) {
             result = new SimpleDateFormat("HH:mm:ss").format(d);
-        } else if (now.getTime() - d.getTime() < 172800000 && now.getDay() != d.getDay()) {
+        } else if (now.getTime() - d.getTime() < 172800000 && now.getDay() - 1  == d.getDay()) {
             result = "учора " + new SimpleDateFormat("HH:mm").format(d);
         } else if (now.getTime() - d.getTime() < 604800000 && now.getDay() != d.getDay()) {
             result = new SimpleDateFormat("E HH:mm").format(d);

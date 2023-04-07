@@ -136,45 +136,46 @@ public class MainActivity extends AppCompatActivity {
         for (String key : contactKeyMap.keySet()) {
             number = key;
             projection = new String[]{"_id", "address", "date", "body", "type", "read"};
-            selection = "address=? AND date=(SELECT MAX(date) FROM sms WHERE address=?)";
-            selectionArgs = new String[]{number, number};
+            selection = "address=?";
+            selectionArgs = new String[]{number};
             sortOrder = "date DESC";
-            cursor = contentResolver.query(Uri.parse("content://sms/"), projection, selection, selectionArgs, sortOrder);
+            try {
+                cursor = contentResolver.query(Uri.parse("content://sms/"), projection, selection, selectionArgs, sortOrder);
 
-            // Form item if chat history already exist
-            if (cursor != null && cursor.moveToFirst()) {
-                message = "";
-                int bodyIndex = cursor.getColumnIndex("body");
-                if (bodyIndex >= 0) {
-                    message = cursor.getString(bodyIndex);
-                }
-                long timeInMillis = 0;
-                int dateIndex = cursor.getColumnIndex("date");
-                if (dateIndex >= 0) {
-                    timeInMillis = cursor.getLong(dateIndex);
-                }
-                time = new Date(timeInMillis);
-                int typeIndex = cursor.getColumnIndex("type");
-                int numberUnreadMessages = 0;
-                if (typeIndex >= 0 && cursor.getInt(typeIndex) == Telephony.Sms.MESSAGE_TYPE_INBOX) {
-                    int readIndex = cursor.getColumnIndex("read");
-                    if (readIndex >= 0 && cursor.getInt(readIndex) == 0) {
-                        numberUnreadMessages = 1;
+                // Form item if chat history already exist
+                if (cursor.moveToFirst()) {
+                    message = "";
+                    int bodyIndex = cursor.getColumnIndex("body");
+                    if (bodyIndex >= 0) {
+                        message = cursor.getString(bodyIndex);
                     }
+                    long timeInMillis = 0;
+                    int dateIndex = cursor.getColumnIndex("date");
+                    if (dateIndex >= 0) {
+                        timeInMillis = cursor.getLong(dateIndex);
+                    }
+                    time = new Date(timeInMillis);
+                    int typeIndex = cursor.getColumnIndex("type");
+                    int numberUnreadMessages = 0;
+                    if (typeIndex >= 0 && cursor.getInt(typeIndex) == Telephony.Sms.MESSAGE_TYPE_INBOX) {
+                        int readIndex = cursor.getColumnIndex("read");
+                        if (readIndex >= 0 && cursor.getInt(readIndex) == 0) {
+                            numberUnreadMessages = 1;
+                        }
+                    }
+                    password = contactKeyMap.get(key).get(0);
+                    contact = new Contact(contactKeyMap.get(key).get(1), key);
+                    result.add(new ChatItem(contact, password, message, time, numberUnreadMessages));
+                    cursor.close();
+                } else {
+                    // Form item if there is no chat history
+                    password = contactKeyMap.get(key).get(0);
+                    contact = new Contact(contactKeyMap.get(key).get(1), key);
+                    time = new Date(0);
+                    result.add(new ChatItem(contact, password, "Немає повідомлень", time, 0));
                 }
-                password = contactKeyMap.get(key).get(0);
-                contact = new Contact(contactKeyMap.get(key).get(1), key);
-                result.add(new ChatItem(contact, password, message, time, numberUnreadMessages));
-            } else {
-                // Form item if there is no chat history
-                password = contactKeyMap.get(key).get(0);
-                contact = new Contact(contactKeyMap.get(key).get(1), key);
-                try {
-                    time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(contactKeyMap.get(key).get(2));
-                } catch (ParseException e) {
-                    time = new Date();
-                }
-                result.add(new ChatItem(contact, password, "Немає повідомлень", time, 0));
+            } catch (SecurityException e) {
+                e.printStackTrace();
             }
         }
         return result;
