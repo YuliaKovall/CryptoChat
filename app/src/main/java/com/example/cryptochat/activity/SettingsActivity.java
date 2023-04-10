@@ -16,7 +16,7 @@ import com.example.cryptochat.controller.FileController;
 
 public class SettingsActivity extends AppCompatActivity {
     private ImageView chatListBackButton;
-    Switch switchThemes;
+    static Switch switchThemes;
     SharedPreferences sharedPreferences = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         switchThemes = findViewById(R.id.switch_theme);
 
-        sharedPreferences = getSharedPreferences("color_theme", 0);;
+        sharedPreferences = getSharedPreferences("color_theme", 0);
         Boolean booleanValue = sharedPreferences.getBoolean("night_mode",true);
 
         if (booleanValue){
@@ -62,7 +62,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-
+    public static Switch getSwitch() {
+        return switchThemes;
+    }
 
     public void goToChatsList() {
         Intent intent = new Intent(this, MainActivity.class);

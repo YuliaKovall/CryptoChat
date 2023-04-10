@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -15,10 +16,12 @@ import android.provider.Telephony;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -31,12 +34,8 @@ import com.example.cryptochat.controller.FileController;
 import com.example.cryptochat.databinding.ActivityMainBinding;
 import com.example.cryptochat.pojo.ChatItem;
 import com.example.cryptochat.pojo.Contact;
-import com.example.cryptochat.pojo.Message;
 import com.example.cryptochat.utils.SwipeToDeleteCallback;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private List<ChatItem> chatItemList;
     private BroadcastReceiver intentReceiver;
     private IntentFilter intentFilter;
+    SharedPreferences sharedPreferencesTheme;
+    private Switch switchThemesFromSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         grantPermissions();
         init();
         printChatItems();
+
 
         ImageView settingsBackButton = findViewById(R.id.right_button_background);
         settingsBackButton.setOnClickListener(new View.OnClickListener() {
@@ -216,8 +218,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivity(intent);
     }
 
+   /* public void getThemePreferences() {
+        sharedPreferencesTheme = getSharedPreferences("color_theme", 0);
+        switchThemesFromSettings = SettingsActivity.getSwitch();
+        Boolean booleanValue = sharedPreferencesTheme.getBoolean("night_mode",true);
+        if (booleanValue) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            switchThemesFromSettings.setChecked(true);
+        }
+    } */
 }
